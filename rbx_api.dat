@@ -10539,6 +10539,91 @@
         {
             "Members": [
                 {
+                    "MemberType": "Function",
+                    "Name": "FetchAssetQualitySummaryFromGltfAsync",
+                    "Parameters": [
+                        {
+                            "Name": "gltfData",
+                            "Type": {
+                                "Category": "Primitive",
+                                "Name": "string"
+                            }
+                        },
+                        {
+                            "Name": "desiredQualityChecks",
+                            "Type": {
+                                "Category": "Group",
+                                "Name": "Array"
+                            }
+                        }
+                    ],
+                    "ReturnType": {
+                        "Category": "Group",
+                        "Name": "Dictionary"
+                    },
+                    "Security": "RobloxScriptSecurity",
+                    "Tags": [
+                        "Yields"
+                    ],
+                    "ThreadSafety": "Unsafe"
+                },
+                {
+                    "MemberType": "Function",
+                    "Name": "FetchAssetQualityVisualizationDataFromUrlAsync",
+                    "Parameters": [
+                        {
+                            "Name": "visualizationUrl",
+                            "Type": {
+                                "Category": "Primitive",
+                                "Name": "string"
+                            }
+                        }
+                    ],
+                    "ReturnType": {
+                        "Category": "Group",
+                        "Name": "Dictionary"
+                    },
+                    "Security": "RobloxScriptSecurity",
+                    "Tags": [
+                        "Yields"
+                    ],
+                    "ThreadSafety": "Unsafe"
+                },
+                {
+                    "MemberType": "Function",
+                    "Name": "GenerateAssetQualityGltfFromInstanceAsync",
+                    "Parameters": [
+                        {
+                            "Name": "uploadModel",
+                            "Type": {
+                                "Category": "Class",
+                                "Name": "Model"
+                            }
+                        }
+                    ],
+                    "ReturnType": {
+                        "Category": "Primitive",
+                        "Name": "string"
+                    },
+                    "Security": "RobloxScriptSecurity",
+                    "Tags": [
+                        "Yields"
+                    ],
+                    "ThreadSafety": "Unsafe"
+                }
+            ],
+            "MemoryCategory": "Instances",
+            "Name": "AssetQualityService",
+            "Superclass": "Instance",
+            "Tags": [
+                "NotCreatable",
+                "Service",
+                "NotReplicated"
+            ]
+        },
+        {
+            "Members": [
+                {
                     "Category": "Behavior",
                     "MemberType": "Property",
                     "Name": "AllowInsertFreeAssets",
@@ -10628,25 +10713,6 @@
                     "ReturnType": {
                         "Category": "Group",
                         "Name": "Dictionary"
-                    },
-                    "Security": "RobloxScriptSecurity",
-                    "ThreadSafety": "Unsafe"
-                },
-                {
-                    "MemberType": "Function",
-                    "Name": "RegisterUGCValidationFunction",
-                    "Parameters": [
-                        {
-                            "Name": "function",
-                            "Type": {
-                                "Category": "DataType",
-                                "Name": "Function"
-                            }
-                        }
-                    ],
-                    "ReturnType": {
-                        "Category": "Primitive",
-                        "Name": "null"
                     },
                     "Security": "RobloxScriptSecurity",
                     "ThreadSafety": "Unsafe"
@@ -33639,6 +33705,73 @@
                 "NotCreatable",
                 "Service"
             ]
+        },
+        {
+            "Members": [
+                {
+                    "Capabilities": {
+                        "Read": [
+                            "Basic"
+                        ]
+                    },
+                    "Category": "Data",
+                    "MemberType": "Property",
+                    "Name": "CurveType",
+                    "Security": {
+                        "Read": "None",
+                        "Write": "None"
+                    },
+                    "Serialization": {
+                        "CanLoad": true,
+                        "CanSave": true
+                    },
+                    "ThreadSafety": "ReadSafe",
+                    "ValueType": {
+                        "Category": "Enum",
+                        "Name": "CompositeValueCurveType"
+                    }
+                },
+                {
+                    "Capabilities": [
+                        "Basic"
+                    ],
+                    "MemberType": "Function",
+                    "Name": "GetComponentCurves",
+                    "Parameters": [
+                    ],
+                    "ReturnType": {
+                        "Category": "DataType",
+                        "Name": "Instances"
+                    },
+                    "Security": "None",
+                    "ThreadSafety": "Unsafe"
+                },
+                {
+                    "Capabilities": [
+                        "Basic"
+                    ],
+                    "MemberType": "Function",
+                    "Name": "GetValueAtTime",
+                    "Parameters": [
+                        {
+                            "Name": "time",
+                            "Type": {
+                                "Category": "Primitive",
+                                "Name": "float"
+                            }
+                        }
+                    ],
+                    "ReturnType": {
+                        "Category": "Group",
+                        "Name": "Variant"
+                    },
+                    "Security": "None",
+                    "ThreadSafety": "Unsafe"
+                }
+            ],
+            "MemoryCategory": "Instances",
+            "Name": "CompositeValueCurve",
+            "Superclass": "Instance"
         },
         {
             "Members": [
@@ -71787,6 +71920,29 @@
                             "Avatar"
                         ]
                     },
+                    "Category": "Data",
+                    "MemberType": "Property",
+                    "Name": "UseAvatarSettings",
+                    "Security": {
+                        "Read": "None",
+                        "Write": "None"
+                    },
+                    "Serialization": {
+                        "CanLoad": true,
+                        "CanSave": true
+                    },
+                    "ThreadSafety": "ReadSafe",
+                    "ValueType": {
+                        "Category": "Primitive",
+                        "Name": "bool"
+                    }
+                },
+                {
+                    "Capabilities": {
+                        "Read": [
+                            "Avatar"
+                        ]
+                    },
                     "Category": "Accessories",
                     "MemberType": "Property",
                     "Name": "WaistAccessory",
@@ -74652,6 +74808,28 @@
                         "Animation"
                     ],
                     "MemberType": "Function",
+                    "Name": "GetJoint",
+                    "Parameters": [
+                        {
+                            "Name": "label",
+                            "Type": {
+                                "Category": "Enum",
+                                "Name": "RigLabel"
+                            }
+                        }
+                    ],
+                    "ReturnType": {
+                        "Category": "Class",
+                        "Name": "Instance"
+                    },
+                    "Security": "RobloxScriptSecurity",
+                    "ThreadSafety": "Safe"
+                },
+                {
+                    "Capabilities": [
+                        "Animation"
+                    ],
+                    "MemberType": "Function",
                     "Name": "GetJointFromName",
                     "Parameters": [
                         {
@@ -74674,6 +74852,21 @@
                         "Animation"
                     ],
                     "MemberType": "Function",
+                    "Name": "GetJointLabels",
+                    "Parameters": [
+                    ],
+                    "ReturnType": {
+                        "Category": "Group",
+                        "Name": "Array"
+                    },
+                    "Security": "RobloxScriptSecurity",
+                    "ThreadSafety": "Safe"
+                },
+                {
+                    "Capabilities": [
+                        "Animation"
+                    ],
+                    "MemberType": "Function",
                     "Name": "GetJointNames",
                     "Parameters": [
                     ],
@@ -74682,6 +74875,87 @@
                         "Name": "Array"
                     },
                     "Security": "None",
+                    "ThreadSafety": "Safe"
+                },
+                {
+                    "Capabilities": [
+                        "Animation"
+                    ],
+                    "MemberType": "Function",
+                    "Name": "GetJointRangeMax",
+                    "Parameters": [
+                        {
+                            "Name": "rigLabel",
+                            "Type": {
+                                "Category": "Enum",
+                                "Name": "RigLabel"
+                            }
+                        }
+                    ],
+                    "ReturnType": {
+                        "Category": "DataType",
+                        "Name": "Vector3"
+                    },
+                    "Security": "RobloxScriptSecurity",
+                    "ThreadSafety": "Safe"
+                },
+                {
+                    "Capabilities": [
+                        "Animation"
+                    ],
+                    "MemberType": "Function",
+                    "Name": "GetJointRangeMin",
+                    "Parameters": [
+                        {
+                            "Name": "rigLabel",
+                            "Type": {
+                                "Category": "Enum",
+                                "Name": "RigLabel"
+                            }
+                        }
+                    ],
+                    "ReturnType": {
+                        "Category": "DataType",
+                        "Name": "Vector3"
+                    },
+                    "Security": "RobloxScriptSecurity",
+                    "ThreadSafety": "Safe"
+                },
+                {
+                    "Capabilities": [
+                        "Animation"
+                    ],
+                    "MemberType": "Function",
+                    "Name": "GetJointSize",
+                    "Parameters": [
+                        {
+                            "Name": "label",
+                            "Type": {
+                                "Category": "Enum",
+                                "Name": "RigLabel"
+                            }
+                        }
+                    ],
+                    "ReturnType": {
+                        "Category": "Primitive",
+                        "Name": "float"
+                    },
+                    "Security": "RobloxScriptSecurity",
+                    "ThreadSafety": "Safe"
+                },
+                {
+                    "Capabilities": [
+                        "Animation"
+                    ],
+                    "MemberType": "Function",
+                    "Name": "GetR15JointLabels",
+                    "Parameters": [
+                    ],
+                    "ReturnType": {
+                        "Category": "Group",
+                        "Name": "Array"
+                    },
+                    "Security": "RobloxScriptSecurity",
                     "ThreadSafety": "Safe"
                 },
                 {
@@ -74704,6 +74978,21 @@
                         "Animation"
                     ],
                     "MemberType": "Function",
+                    "Name": "GetR6JointLabels",
+                    "Parameters": [
+                    ],
+                    "ReturnType": {
+                        "Category": "Group",
+                        "Name": "Array"
+                    },
+                    "Security": "RobloxScriptSecurity",
+                    "ThreadSafety": "Safe"
+                },
+                {
+                    "Capabilities": [
+                        "Animation"
+                    ],
+                    "MemberType": "Function",
                     "Name": "GetR6JointNames",
                     "Parameters": [
                     ],
@@ -74712,6 +75001,173 @@
                         "Name": "Array"
                     },
                     "Security": "None",
+                    "ThreadSafety": "Safe"
+                },
+                {
+                    "Capabilities": [
+                        "Animation"
+                    ],
+                    "MemberType": "Function",
+                    "Name": "GetTposeAdjustment",
+                    "Parameters": [
+                        {
+                            "Name": "label",
+                            "Type": {
+                                "Category": "Enum",
+                                "Name": "RigLabel"
+                            }
+                        }
+                    ],
+                    "ReturnType": {
+                        "Category": "DataType",
+                        "Name": "CFrame"
+                    },
+                    "Security": "RobloxScriptSecurity",
+                    "ThreadSafety": "Safe"
+                },
+                {
+                    "Capabilities": [
+                        "Animation"
+                    ],
+                    "MemberType": "Function",
+                    "Name": "SetJoint",
+                    "Parameters": [
+                        {
+                            "Name": "label",
+                            "Type": {
+                                "Category": "Enum",
+                                "Name": "RigLabel"
+                            }
+                        },
+                        {
+                            "Name": "character",
+                            "Type": {
+                                "Category": "Class",
+                                "Name": "Instance"
+                            }
+                        }
+                    ],
+                    "ReturnType": {
+                        "Category": "Primitive",
+                        "Name": "null"
+                    },
+                    "Security": "RobloxScriptSecurity",
+                    "ThreadSafety": "Safe"
+                },
+                {
+                    "Capabilities": [
+                        "Animation"
+                    ],
+                    "MemberType": "Function",
+                    "Name": "SetJointRangeMax",
+                    "Parameters": [
+                        {
+                            "Name": "rigLabel",
+                            "Type": {
+                                "Category": "Enum",
+                                "Name": "RigLabel"
+                            }
+                        },
+                        {
+                            "Name": "rangeMax",
+                            "Type": {
+                                "Category": "DataType",
+                                "Name": "Vector3"
+                            }
+                        }
+                    ],
+                    "ReturnType": {
+                        "Category": "Primitive",
+                        "Name": "null"
+                    },
+                    "Security": "RobloxScriptSecurity",
+                    "ThreadSafety": "Safe"
+                },
+                {
+                    "Capabilities": [
+                        "Animation"
+                    ],
+                    "MemberType": "Function",
+                    "Name": "SetJointRangeMin",
+                    "Parameters": [
+                        {
+                            "Name": "rigLabel",
+                            "Type": {
+                                "Category": "Enum",
+                                "Name": "RigLabel"
+                            }
+                        },
+                        {
+                            "Name": "rangeMin",
+                            "Type": {
+                                "Category": "DataType",
+                                "Name": "Vector3"
+                            }
+                        }
+                    ],
+                    "ReturnType": {
+                        "Category": "Primitive",
+                        "Name": "null"
+                    },
+                    "Security": "RobloxScriptSecurity",
+                    "ThreadSafety": "Safe"
+                },
+                {
+                    "Capabilities": [
+                        "Animation"
+                    ],
+                    "MemberType": "Function",
+                    "Name": "SetJointSize",
+                    "Parameters": [
+                        {
+                            "Name": "label",
+                            "Type": {
+                                "Category": "Enum",
+                                "Name": "RigLabel"
+                            }
+                        },
+                        {
+                            "Name": "size",
+                            "Type": {
+                                "Category": "Primitive",
+                                "Name": "float"
+                            }
+                        }
+                    ],
+                    "ReturnType": {
+                        "Category": "Primitive",
+                        "Name": "null"
+                    },
+                    "Security": "RobloxScriptSecurity",
+                    "ThreadSafety": "Safe"
+                },
+                {
+                    "Capabilities": [
+                        "Animation"
+                    ],
+                    "MemberType": "Function",
+                    "Name": "SetTposeAdjustment",
+                    "Parameters": [
+                        {
+                            "Name": "label",
+                            "Type": {
+                                "Category": "Enum",
+                                "Name": "RigLabel"
+                            }
+                        },
+                        {
+                            "Name": "transform",
+                            "Type": {
+                                "Category": "DataType",
+                                "Name": "CFrame"
+                            }
+                        }
+                    ],
+                    "ReturnType": {
+                        "Category": "Primitive",
+                        "Name": "null"
+                    },
+                    "Security": "RobloxScriptSecurity",
                     "ThreadSafety": "Safe"
                 },
                 {
@@ -76479,6 +76935,29 @@
                     "ValueType": {
                         "Category": "DataType",
                         "Name": "Vector2"
+                    }
+                },
+                {
+                    "Capabilities": {
+                        "Read": [
+                            "Input"
+                        ]
+                    },
+                    "Category": "Behavior",
+                    "MemberType": "Property",
+                    "Name": "Vector3Scale",
+                    "Security": {
+                        "Read": "None",
+                        "Write": "None"
+                    },
+                    "Serialization": {
+                        "CanLoad": true,
+                        "CanSave": true
+                    },
+                    "ThreadSafety": "ReadSafe",
+                    "ValueType": {
+                        "Category": "DataType",
+                        "Name": "Vector3"
                     }
                 }
             ],
@@ -81516,6 +81995,120 @@
                 "Service",
                 "NotReplicated"
             ]
+        },
+        {
+            "Members": [
+                {
+                    "Capabilities": {
+                        "Read": [
+                            "Avatar"
+                        ]
+                    },
+                    "Category": "Data",
+                    "MemberType": "Property",
+                    "Name": "AssetId",
+                    "Security": {
+                        "Read": "None",
+                        "Write": "None"
+                    },
+                    "Serialization": {
+                        "CanLoad": true,
+                        "CanSave": true
+                    },
+                    "ThreadSafety": "ReadSafe",
+                    "ValueType": {
+                        "Category": "Primitive",
+                        "Name": "int64"
+                    }
+                },
+                {
+                    "Capabilities": {
+                        "Read": [
+                            "Avatar"
+                        ]
+                    },
+                    "Category": "Data",
+                    "MemberType": "Property",
+                    "Name": "Instance",
+                    "Security": {
+                        "Read": "None",
+                        "Write": "None"
+                    },
+                    "Serialization": {
+                        "CanLoad": true,
+                        "CanSave": true
+                    },
+                    "ThreadSafety": "ReadSafe",
+                    "ValueType": {
+                        "Category": "Class",
+                        "Name": "Instance"
+                    }
+                },
+                {
+                    "Capabilities": {
+                        "Read": [
+                            "Avatar"
+                        ]
+                    },
+                    "Category": "Data",
+                    "MemberType": "Property",
+                    "Name": "MakeupType",
+                    "Security": {
+                        "Read": "None",
+                        "Write": "None"
+                    },
+                    "Serialization": {
+                        "CanLoad": true,
+                        "CanSave": true
+                    },
+                    "ThreadSafety": "ReadSafe",
+                    "ValueType": {
+                        "Category": "Enum",
+                        "Name": "MakeupType"
+                    }
+                },
+                {
+                    "Capabilities": {
+                        "Read": [
+                            "Avatar"
+                        ]
+                    },
+                    "Category": "Data",
+                    "MemberType": "Property",
+                    "Name": "Order",
+                    "Security": {
+                        "Read": "None",
+                        "Write": "None"
+                    },
+                    "Serialization": {
+                        "CanLoad": true,
+                        "CanSave": true
+                    },
+                    "ThreadSafety": "ReadSafe",
+                    "ValueType": {
+                        "Category": "Primitive",
+                        "Name": "int"
+                    }
+                },
+                {
+                    "Capabilities": [
+                        "Avatar"
+                    ],
+                    "MemberType": "Function",
+                    "Name": "GetAppliedInstance",
+                    "Parameters": [
+                    ],
+                    "ReturnType": {
+                        "Category": "Class",
+                        "Name": "Instance"
+                    },
+                    "Security": "None",
+                    "ThreadSafety": "Unsafe"
+                }
+            ],
+            "MemoryCategory": "Instances",
+            "Name": "MakeupDescription",
+            "Superclass": "Instance"
         },
         {
             "Members": [
@@ -98137,6 +98730,35 @@
                     }
                 },
                 {
+                    "Capabilities": {
+                        "Read": [
+                            "InternalTest"
+                        ],
+                        "Write": [
+                            "InternalTest"
+                        ]
+                    },
+                    "Category": "Behavior",
+                    "MemberType": "Property",
+                    "Name": "NextGenerationReplication",
+                    "Security": {
+                        "Read": "None",
+                        "Write": "None"
+                    },
+                    "Serialization": {
+                        "CanLoad": true,
+                        "CanSave": true
+                    },
+                    "Tags": [
+                        "NotScriptable"
+                    ],
+                    "ThreadSafety": "ReadSafe",
+                    "ValueType": {
+                        "Category": "Enum",
+                        "Name": "RolloutState"
+                    }
+                },
+                {
                     "Category": "Behavior",
                     "MemberType": "Property",
                     "Name": "PathfindingUseImprovedSearch",
@@ -98218,6 +98840,27 @@
                     "ValueType": {
                         "Category": "Enum",
                         "Name": "PlayerCharacterDestroyBehavior"
+                    }
+                },
+                {
+                    "Category": "Behavior",
+                    "MemberType": "Property",
+                    "Name": "PlayerScriptsUseInputActionSystem",
+                    "Security": {
+                        "Read": "None",
+                        "Write": "None"
+                    },
+                    "Serialization": {
+                        "CanLoad": true,
+                        "CanSave": true
+                    },
+                    "Tags": [
+                        "NotScriptable"
+                    ],
+                    "ThreadSafety": "ReadSafe",
+                    "ValueType": {
+                        "Category": "Enum",
+                        "Name": "RolloutState"
                     }
                 },
                 {
@@ -98528,6 +99171,27 @@
                     "ValueType": {
                         "Category": "Primitive",
                         "Name": "bool"
+                    }
+                },
+                {
+                    "Category": "Behavior",
+                    "MemberType": "Property",
+                    "Name": "UseFixedSimulation",
+                    "Security": {
+                        "Read": "None",
+                        "Write": "None"
+                    },
+                    "Serialization": {
+                        "CanLoad": true,
+                        "CanSave": true
+                    },
+                    "Tags": [
+                        "NotScriptable"
+                    ],
+                    "ThreadSafety": "ReadSafe",
+                    "ValueType": {
+                        "Category": "Enum",
+                        "Name": "RolloutState"
                     }
                 },
                 {
@@ -122140,6 +122804,29 @@
                     },
                     "Category": "Appearance",
                     "MemberType": "Property",
+                    "Name": "MoonTextureContent",
+                    "Security": {
+                        "Read": "None",
+                        "Write": "None"
+                    },
+                    "Serialization": {
+                        "CanLoad": true,
+                        "CanSave": true
+                    },
+                    "ThreadSafety": "ReadSafe",
+                    "ValueType": {
+                        "Category": "DataType",
+                        "Name": "Content"
+                    }
+                },
+                {
+                    "Capabilities": {
+                        "Read": [
+                            "Environment"
+                        ]
+                    },
+                    "Category": "Appearance",
+                    "MemberType": "Property",
                     "Name": "MoonTextureId",
                     "Security": {
                         "Read": "None",
@@ -122153,6 +122840,29 @@
                     "ValueType": {
                         "Category": "DataType",
                         "Name": "ContentId"
+                    }
+                },
+                {
+                    "Capabilities": {
+                        "Read": [
+                            "Environment"
+                        ]
+                    },
+                    "Category": "Appearance",
+                    "MemberType": "Property",
+                    "Name": "SkyboxBackContent",
+                    "Security": {
+                        "Read": "None",
+                        "Write": "None"
+                    },
+                    "Serialization": {
+                        "CanLoad": true,
+                        "CanSave": true
+                    },
+                    "ThreadSafety": "ReadSafe",
+                    "ValueType": {
+                        "Category": "DataType",
+                        "Name": "Content"
                     }
                 },
                 {
@@ -122209,6 +122919,52 @@
                     },
                     "Category": "Appearance",
                     "MemberType": "Property",
+                    "Name": "SkyboxDownContent",
+                    "Security": {
+                        "Read": "None",
+                        "Write": "None"
+                    },
+                    "Serialization": {
+                        "CanLoad": true,
+                        "CanSave": true
+                    },
+                    "ThreadSafety": "ReadSafe",
+                    "ValueType": {
+                        "Category": "DataType",
+                        "Name": "Content"
+                    }
+                },
+                {
+                    "Capabilities": {
+                        "Read": [
+                            "Environment"
+                        ]
+                    },
+                    "Category": "Appearance",
+                    "MemberType": "Property",
+                    "Name": "SkyboxFrontContent",
+                    "Security": {
+                        "Read": "None",
+                        "Write": "None"
+                    },
+                    "Serialization": {
+                        "CanLoad": true,
+                        "CanSave": true
+                    },
+                    "ThreadSafety": "ReadSafe",
+                    "ValueType": {
+                        "Category": "DataType",
+                        "Name": "Content"
+                    }
+                },
+                {
+                    "Capabilities": {
+                        "Read": [
+                            "Environment"
+                        ]
+                    },
+                    "Category": "Appearance",
+                    "MemberType": "Property",
                     "Name": "SkyboxFt",
                     "Security": {
                         "Read": "None",
@@ -122222,6 +122978,29 @@
                     "ValueType": {
                         "Category": "DataType",
                         "Name": "ContentId"
+                    }
+                },
+                {
+                    "Capabilities": {
+                        "Read": [
+                            "Environment"
+                        ]
+                    },
+                    "Category": "Appearance",
+                    "MemberType": "Property",
+                    "Name": "SkyboxLeftContent",
+                    "Security": {
+                        "Read": "None",
+                        "Write": "None"
+                    },
+                    "Serialization": {
+                        "CanLoad": true,
+                        "CanSave": true
+                    },
+                    "ThreadSafety": "ReadSafe",
+                    "ValueType": {
+                        "Category": "DataType",
+                        "Name": "Content"
                     }
                 },
                 {
@@ -122278,6 +123057,29 @@
                     },
                     "Category": "Appearance",
                     "MemberType": "Property",
+                    "Name": "SkyboxRightContent",
+                    "Security": {
+                        "Read": "None",
+                        "Write": "None"
+                    },
+                    "Serialization": {
+                        "CanLoad": true,
+                        "CanSave": true
+                    },
+                    "ThreadSafety": "ReadSafe",
+                    "ValueType": {
+                        "Category": "DataType",
+                        "Name": "Content"
+                    }
+                },
+                {
+                    "Capabilities": {
+                        "Read": [
+                            "Environment"
+                        ]
+                    },
+                    "Category": "Appearance",
+                    "MemberType": "Property",
                     "Name": "SkyboxRt",
                     "Security": {
                         "Read": "None",
@@ -122324,6 +123126,29 @@
                     },
                     "Category": "Appearance",
                     "MemberType": "Property",
+                    "Name": "SkyboxUpContent",
+                    "Security": {
+                        "Read": "None",
+                        "Write": "None"
+                    },
+                    "Serialization": {
+                        "CanLoad": true,
+                        "CanSave": true
+                    },
+                    "ThreadSafety": "ReadSafe",
+                    "ValueType": {
+                        "Category": "DataType",
+                        "Name": "Content"
+                    }
+                },
+                {
+                    "Capabilities": {
+                        "Read": [
+                            "Environment"
+                        ]
+                    },
+                    "Category": "Appearance",
+                    "MemberType": "Property",
                     "Name": "StarCount",
                     "Security": {
                         "Read": "None",
@@ -122360,6 +123185,29 @@
                     "ValueType": {
                         "Category": "Primitive",
                         "Name": "float"
+                    }
+                },
+                {
+                    "Capabilities": {
+                        "Read": [
+                            "Environment"
+                        ]
+                    },
+                    "Category": "Appearance",
+                    "MemberType": "Property",
+                    "Name": "SunTextureContent",
+                    "Security": {
+                        "Read": "None",
+                        "Write": "None"
+                    },
+                    "Serialization": {
+                        "CanLoad": true,
+                        "CanSave": true
+                    },
+                    "ThreadSafety": "ReadSafe",
+                    "ValueType": {
+                        "Category": "DataType",
+                        "Name": "Content"
                     }
                 },
                 {
@@ -146339,35 +147187,6 @@
                 },
                 {
                     "MemberType": "Function",
-                    "Name": "FetchQualityResultsAsync",
-                    "Parameters": [
-                        {
-                            "Name": "uploadModel",
-                            "Type": {
-                                "Category": "Class",
-                                "Name": "Model"
-                            }
-                        },
-                        {
-                            "Name": "desiredDatas",
-                            "Type": {
-                                "Category": "Group",
-                                "Name": "Array"
-                            }
-                        }
-                    ],
-                    "ReturnType": {
-                        "Category": "Group",
-                        "Name": "Dictionary"
-                    },
-                    "Security": "RobloxScriptSecurity",
-                    "Tags": [
-                        "Yields"
-                    ],
-                    "ThreadSafety": "Unsafe"
-                },
-                {
-                    "MemberType": "Function",
                     "Name": "GetCagingRelevancyMetrics",
                     "Parameters": [
                         {
@@ -159862,6 +160681,36 @@
         {
             "Items": [
                 {
+                    "Name": "Cartesian",
+                    "Value": 0
+                },
+                {
+                    "Name": "Polar",
+                    "Value": 1
+                }
+            ],
+            "Name": "AnimationNodeBlend2DInputMode"
+        },
+        {
+            "Items": [
+                {
+                    "Name": "Always",
+                    "Value": 0
+                },
+                {
+                    "Name": "ClipFinished",
+                    "Value": 1
+                },
+                {
+                    "Name": "Expression",
+                    "Value": 2
+                }
+            ],
+            "Name": "AnimationNodeInterruptible"
+        },
+        {
+            "Items": [
+                {
                     "Name": "Loop",
                     "Value": 0
                 },
@@ -159957,6 +160806,19 @@
                 }
             ],
             "Name": "AnimationNodeType"
+        },
+        {
+            "Items": [
+                {
+                    "Name": "ClipFinished",
+                    "Value": 0
+                },
+                {
+                    "Name": "Expression",
+                    "Value": 1
+                }
+            ],
+            "Name": "AnimationNodeWaitFor"
         },
         {
             "Items": [
@@ -162498,6 +163360,43 @@
         {
             "Items": [
                 {
+                    "Name": "ColorRGB",
+                    "Value": 0
+                },
+                {
+                    "Name": "ColorHSV",
+                    "Value": 1
+                },
+                {
+                    "Name": "NumberRange",
+                    "Value": 2
+                },
+                {
+                    "Name": "Rect",
+                    "Value": 3
+                },
+                {
+                    "Name": "UDim",
+                    "Value": 4
+                },
+                {
+                    "Name": "UDim2",
+                    "Value": 5
+                },
+                {
+                    "Name": "Vector2",
+                    "Value": 6
+                },
+                {
+                    "Name": "Vector3",
+                    "Value": 7
+                }
+            ],
+            "Name": "CompositeValueCurveType"
+        },
+        {
+            "Items": [
+                {
                     "Name": "Zstd",
                     "Value": 0
                 }
@@ -164521,6 +165420,19 @@
                 }
             ],
             "Name": "FilterResult"
+        },
+        {
+            "Items": [
+                {
+                    "Name": "Exclude",
+                    "Value": 0
+                },
+                {
+                    "Name": "Include",
+                    "Value": 1
+                }
+            ],
+            "Name": "FilterType"
         },
         {
             "Items": [
@@ -167916,6 +168828,23 @@
         {
             "Items": [
                 {
+                    "Name": "Face",
+                    "Value": 0
+                },
+                {
+                    "Name": "Lip",
+                    "Value": 1
+                },
+                {
+                    "Name": "Eye",
+                    "Value": 2
+                }
+            ],
+            "Name": "MakeupType"
+        },
+        {
+            "Items": [
+                {
                     "Name": "Completed",
                     "Value": 1
                 },
@@ -170658,6 +171587,103 @@
                 }
             ],
             "Name": "RibbonTool"
+        },
+        {
+            "Items": [
+                {
+                    "Name": "Invalid",
+                    "Value": 0
+                },
+                {
+                    "Name": "Root",
+                    "Value": 1
+                },
+                {
+                    "Name": "Pelvis",
+                    "Value": 2
+                },
+                {
+                    "Name": "Waist",
+                    "Value": 3
+                },
+                {
+                    "Name": "Chest",
+                    "Value": 4
+                },
+                {
+                    "Name": "Neck",
+                    "Value": 5
+                },
+                {
+                    "Name": "HeadBase",
+                    "Value": 6
+                },
+                {
+                    "Name": "LeftClavicle",
+                    "Value": 7
+                },
+                {
+                    "Name": "LeftShoulder",
+                    "Value": 8
+                },
+                {
+                    "Name": "LeftElbow",
+                    "Value": 9
+                },
+                {
+                    "Name": "LeftWrist",
+                    "Value": 10
+                },
+                {
+                    "Name": "RightClavicle",
+                    "Value": 11
+                },
+                {
+                    "Name": "RightShoulder",
+                    "Value": 12
+                },
+                {
+                    "Name": "RightElbow",
+                    "Value": 13
+                },
+                {
+                    "Name": "RightWrist",
+                    "Value": 14
+                },
+                {
+                    "Name": "LeftHip",
+                    "Value": 15
+                },
+                {
+                    "Name": "LeftKnee",
+                    "Value": 16
+                },
+                {
+                    "Name": "LeftAnkle",
+                    "Value": 17
+                },
+                {
+                    "Name": "LeftToes",
+                    "Value": 18
+                },
+                {
+                    "Name": "RightHip",
+                    "Value": 19
+                },
+                {
+                    "Name": "RightKnee",
+                    "Value": 20
+                },
+                {
+                    "Name": "RightAnkle",
+                    "Value": 21
+                },
+                {
+                    "Name": "RightToes",
+                    "Value": 22
+                }
+            ],
+            "Name": "RigLabel"
         },
         {
             "Items": [
