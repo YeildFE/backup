@@ -11167,6 +11167,39 @@
                     }
                 },
                 {
+                    "MemberType": "Function",
+                    "Name": "ComposeDecal",
+                    "Parameters": [
+                        {
+                            "Name": "decal",
+                            "Type": {
+                                "Category": "Class",
+                                "Name": "Decal"
+                            }
+                        },
+                        {
+                            "Name": "layers",
+                            "Type": {
+                                "Category": "Group",
+                                "Name": "Array"
+                            }
+                        },
+                        {
+                            "Name": "onFinishCallback",
+                            "Type": {
+                                "Category": "DataType",
+                                "Name": "Function"
+                            }
+                        }
+                    ],
+                    "ReturnType": {
+                        "Category": "Primitive",
+                        "Name": "null"
+                    },
+                    "Security": "RobloxScriptSecurity",
+                    "ThreadSafety": "Unsafe"
+                },
+                {
                     "Capabilities": [
                         "DynamicGeneration"
                     ],
@@ -21409,6 +21442,32 @@
                 },
                 {
                     "MemberType": "Function",
+                    "Name": "HandleSelfieQRResult",
+                    "Parameters": [
+                        {
+                            "Name": "success",
+                            "Type": {
+                                "Category": "Primitive",
+                                "Name": "bool"
+                            }
+                        },
+                        {
+                            "Name": "resultString",
+                            "Type": {
+                                "Category": "Primitive",
+                                "Name": "string"
+                            }
+                        }
+                    ],
+                    "ReturnType": {
+                        "Category": "Primitive",
+                        "Name": "null"
+                    },
+                    "Security": "RobloxScriptSecurity",
+                    "ThreadSafety": "Unsafe"
+                },
+                {
+                    "MemberType": "Function",
                     "Name": "AutoSetupAvatarAsync",
                     "Parameters": [
                         {
@@ -21854,6 +21913,28 @@
                     "MemberType": "Event",
                     "Name": "OpenSelfieConsent",
                     "Parameters": [
+                    ],
+                    "Security": "RobloxScriptSecurity",
+                    "ThreadSafety": "Unsafe"
+                },
+                {
+                    "MemberType": "Event",
+                    "Name": "OpenSelfieQRCode",
+                    "Parameters": [
+                        {
+                            "Name": "url",
+                            "Type": {
+                                "Category": "Primitive",
+                                "Name": "string"
+                            }
+                        },
+                        {
+                            "Name": "jobId",
+                            "Type": {
+                                "Category": "Primitive",
+                                "Name": "string"
+                            }
+                        }
                     ],
                     "Security": "RobloxScriptSecurity",
                     "ThreadSafety": "Unsafe"
@@ -40201,6 +40282,21 @@
                         "Input"
                     ],
                     "MemberType": "Function",
+                    "Name": "GetInputContexts",
+                    "Parameters": [
+                    ],
+                    "ReturnType": {
+                        "Category": "DataType",
+                        "Name": "Instances"
+                    },
+                    "Security": "RobloxScriptSecurity",
+                    "ThreadSafety": "Unsafe"
+                },
+                {
+                    "Capabilities": [
+                        "Input"
+                    ],
+                    "MemberType": "Function",
                     "Name": "SetDescription",
                     "Parameters": [
                         {
@@ -40573,6 +40669,17 @@
                                 "Name": "string"
                             }
                         }
+                    ],
+                    "Security": "RobloxScriptSecurity",
+                    "ThreadSafety": "Unsafe"
+                },
+                {
+                    "Capabilities": [
+                        "Input"
+                    ],
+                    "MemberType": "Event",
+                    "Name": "InputContextsChanged",
+                    "Parameters": [
                     ],
                     "Security": "RobloxScriptSecurity",
                     "ThreadSafety": "Unsafe"
@@ -50684,6 +50791,17 @@
                         "Category": "Primitive",
                         "Name": "float"
                     }
+                },
+                {
+                    "Capabilities": [
+                        "Animation"
+                    ],
+                    "MemberType": "Event",
+                    "Name": "HasInternalFacsOverrideChanged",
+                    "Parameters": [
+                    ],
+                    "Security": "RobloxScriptSecurity",
+                    "ThreadSafety": "Unsafe"
                 }
             ],
             "MemoryCategory": "Animation",
@@ -78794,6 +78912,21 @@
                         "Input"
                     ],
                     "MemberType": "Function",
+                    "Name": "GetInputBindings",
+                    "Parameters": [
+                    ],
+                    "ReturnType": {
+                        "Category": "DataType",
+                        "Name": "Instances"
+                    },
+                    "Security": "RobloxScriptSecurity",
+                    "ThreadSafety": "Unsafe"
+                },
+                {
+                    "Capabilities": [
+                        "Input"
+                    ],
+                    "MemberType": "Function",
                     "Name": "GetState",
                     "Parameters": [
                     ],
@@ -78803,6 +78936,17 @@
                     },
                     "Security": "None",
                     "ThreadSafety": "Safe"
+                },
+                {
+                    "Capabilities": [
+                        "Input"
+                    ],
+                    "MemberType": "Event",
+                    "Name": "InputBindingsChanged",
+                    "Parameters": [
+                    ],
+                    "Security": "RobloxScriptSecurity",
+                    "ThreadSafety": "Unsafe"
                 },
                 {
                     "Capabilities": [
@@ -79317,6 +79461,32 @@
                         "Category": "Primitive",
                         "Name": "bool"
                     }
+                },
+                {
+                    "Capabilities": [
+                        "Input"
+                    ],
+                    "MemberType": "Function",
+                    "Name": "GetInputActions",
+                    "Parameters": [
+                    ],
+                    "ReturnType": {
+                        "Category": "DataType",
+                        "Name": "Instances"
+                    },
+                    "Security": "RobloxScriptSecurity",
+                    "ThreadSafety": "Unsafe"
+                },
+                {
+                    "Capabilities": [
+                        "Input"
+                    ],
+                    "MemberType": "Event",
+                    "Name": "InputActionsChanged",
+                    "Parameters": [
+                    ],
+                    "Security": "RobloxScriptSecurity",
+                    "ThreadSafety": "Unsafe"
                 }
             ],
             "MemoryCategory": "Instances",
@@ -101642,6 +101812,11 @@
                     }
                 },
                 {
+                    "Capabilities": {
+                        "Read": [
+                            "Basic"
+                        ]
+                    },
                     "Category": "Data",
                     "MemberType": "Property",
                     "Name": "CurrentCamera",
@@ -101720,6 +101895,11 @@
                     }
                 },
                 {
+                    "Capabilities": {
+                        "Read": [
+                            "Basic"
+                        ]
+                    },
                     "Category": "Behavior",
                     "MemberType": "Property",
                     "Name": "FilteringEnabled",
@@ -101764,6 +101944,11 @@
                     }
                 },
                 {
+                    "Capabilities": {
+                        "Read": [
+                            "Basic"
+                        ]
+                    },
                     "Category": "Behavior",
                     "MemberType": "Property",
                     "Name": "GlobalWind",
@@ -101782,6 +101967,11 @@
                     }
                 },
                 {
+                    "Capabilities": {
+                        "Read": [
+                            "Basic"
+                        ]
+                    },
                     "Category": "Behavior",
                     "MemberType": "Property",
                     "Name": "Gravity",
@@ -102639,6 +102829,9 @@
                     "ThreadSafety": "Unsafe"
                 },
                 {
+                    "Capabilities": [
+                        "Basic"
+                    ],
                     "MemberType": "Function",
                     "Name": "PGSIsEnabled",
                     "Parameters": [
@@ -107105,6 +107298,17 @@
                 "NotCreatable",
                 "Service",
                 "NotReplicated"
+            ]
+        },
+        {
+            "Members": [
+            ],
+            "MemoryCategory": "Instances",
+            "Name": "PlatformLibraries",
+            "Superclass": "Instance",
+            "Tags": [
+                "NotCreatable",
+                "Service"
             ]
         },
         {
@@ -120186,6 +120390,16 @@
                 "NotCreatable",
                 "Service",
                 "NotReplicated"
+            ]
+        },
+        {
+            "Members": [
+            ],
+            "MemoryCategory": "Instances",
+            "Name": "RolloutValidation",
+            "Superclass": "Instance",
+            "Tags": [
+                "NotCreatable"
             ]
         },
         {
@@ -136080,6 +136294,24 @@
                     }
                 },
                 {
+                    "Category": "Directories",
+                    "MemberType": "Property",
+                    "Name": "ExternalEditorSelection",
+                    "Security": {
+                        "Read": "RobloxScriptSecurity",
+                        "Write": "RobloxScriptSecurity"
+                    },
+                    "Serialization": {
+                        "CanLoad": true,
+                        "CanSave": true
+                    },
+                    "ThreadSafety": "ReadSafe",
+                    "ValueType": {
+                        "Category": "DataType",
+                        "Name": "QDir"
+                    }
+                },
+                {
                     "Category": "Script Editor Colors",
                     "MemberType": "Property",
                     "Name": "Find Selection Background Color",
@@ -137791,6 +138023,24 @@
                     "ValueType": {
                         "Category": "Enum",
                         "Name": "UITheme"
+                    }
+                },
+                {
+                    "Category": "Directories",
+                    "MemberType": "Property",
+                    "Name": "UseDefaultExternalEditor",
+                    "Security": {
+                        "Read": "RobloxScriptSecurity",
+                        "Write": "RobloxScriptSecurity"
+                    },
+                    "Serialization": {
+                        "CanLoad": true,
+                        "CanSave": true
+                    },
+                    "ThreadSafety": "ReadSafe",
+                    "ValueType": {
+                        "Category": "Primitive",
+                        "Name": "bool"
                     }
                 },
                 {
@@ -141293,7 +141543,7 @@
         {
             "Members": [
                 {
-                    "Category": "Behavior",
+                    "Category": "Conditions",
                     "MemberType": "Property",
                     "Name": "AspectRatioRange",
                     "Security": {
@@ -141337,7 +141587,7 @@
                     }
                 },
                 {
-                    "Category": "Behavior",
+                    "Category": "Conditions",
                     "MemberType": "Property",
                     "Name": "MaxSize",
                     "Security": {
@@ -141359,7 +141609,7 @@
                     }
                 },
                 {
-                    "Category": "Behavior",
+                    "Category": "Conditions",
                     "MemberType": "Property",
                     "Name": "MinSize",
                     "Security": {
@@ -141381,7 +141631,29 @@
                     }
                 },
                 {
-                    "Category": "Data",
+                    "Category": "Conditions",
+                    "MemberType": "Property",
+                    "Name": "PreferredInput",
+                    "Security": {
+                        "Read": "None",
+                        "Write": "None"
+                    },
+                    "Serialization": {
+                        "CanLoad": false,
+                        "CanSave": false
+                    },
+                    "Tags": [
+                        "NotReplicated",
+                        "NotScriptable"
+                    ],
+                    "ThreadSafety": "ReadSafe",
+                    "ValueType": {
+                        "Category": "Enum",
+                        "Name": "PreferredInput"
+                    }
+                },
+                {
+                    "Category": "Conditions",
                     "MemberType": "Property",
                     "Name": "ReducedMotionEnabled",
                     "Security": {
@@ -141400,6 +141672,28 @@
                     "ValueType": {
                         "Category": "Primitive",
                         "Name": "bool"
+                    }
+                },
+                {
+                    "Category": "Conditions",
+                    "MemberType": "Property",
+                    "Name": "ViewportDisplaySize",
+                    "Security": {
+                        "Read": "None",
+                        "Write": "None"
+                    },
+                    "Serialization": {
+                        "CanLoad": false,
+                        "CanSave": false
+                    },
+                    "Tags": [
+                        "NotReplicated",
+                        "NotScriptable"
+                    ],
+                    "ThreadSafety": "ReadSafe",
+                    "ValueType": {
+                        "Category": "Enum",
+                        "Name": "DisplaySize"
                     }
                 },
                 {
@@ -141910,7 +142204,7 @@
                     "MemberType": "Property",
                     "Name": "TexturePack",
                     "Security": {
-                        "Read": "RobloxSecurity",
+                        "Read": "RobloxScriptSecurity",
                         "Write": "RobloxSecurity"
                     },
                     "Serialization": {
@@ -144645,6 +144939,14 @@
                             "Type": {
                                 "Category": "Primitive",
                                 "Name": "string"
+                            }
+                        },
+                        {
+                            "Default": "nil",
+                            "Name": "source",
+                            "Type": {
+                                "Category": "Class",
+                                "Name": "Instance"
                             }
                         }
                     ],
@@ -152133,6 +152435,28 @@
                             "Type": {
                                 "Category": "Primitive",
                                 "Name": "string"
+                            }
+                        }
+                    ],
+                    "ReturnType": {
+                        "Category": "Primitive",
+                        "Name": "bool"
+                    },
+                    "Security": "RobloxScriptSecurity",
+                    "Tags": [
+                        "Yields"
+                    ],
+                    "ThreadSafety": "Unsafe"
+                },
+                {
+                    "MemberType": "Function",
+                    "Name": "DoesSurfaceAppearanceMatchTexturePackAsync",
+                    "Parameters": [
+                        {
+                            "Name": "surfaceAppearance",
+                            "Type": {
+                                "Category": "Class",
+                                "Name": "SurfaceAppearance"
                             }
                         }
                     ],
@@ -172337,6 +172661,10 @@
                 {
                     "Name": "SyncedAsDescendant",
                     "Value": 3
+                },
+                {
+                    "Name": "AncestorErrored",
+                    "Value": 4
                 }
             ],
             "Name": "InstanceFileSyncStatus"
@@ -173136,6 +173464,10 @@
                 {
                     "Name": "TrackpadPinch",
                     "Value": 1045
+                },
+                {
+                    "Name": "MouseDelta",
+                    "Value": 1048
                 },
                 {
                     "Name": "World0",
