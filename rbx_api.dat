@@ -5286,7 +5286,7 @@
                             }
                         },
                         {
-                            "Name": "immersiveBrandedAdId",
+                            "Name": "adIntegrationPlacementId",
                             "Type": {
                                 "Category": "Primitive",
                                 "Name": "string"
@@ -55137,6 +55137,21 @@
                         "Input"
                     ],
                     "MemberType": "Function",
+                    "Name": "AutoSelectGui",
+                    "Parameters": [
+                    ],
+                    "ReturnType": {
+                        "Category": "Primitive",
+                        "Name": "null"
+                    },
+                    "Security": "RobloxScriptSecurity",
+                    "ThreadSafety": "Unsafe"
+                },
+                {
+                    "Capabilities": [
+                        "Input"
+                    ],
+                    "MemberType": "Function",
                     "Name": "DisableGamepadCursor",
                     "Parameters": [
                     ],
@@ -86547,6 +86562,39 @@
                         "Logging"
                     ],
                     "MemberType": "Function",
+                    "Name": "Error",
+                    "Parameters": [
+                        {
+                            "Name": "message",
+                            "Type": {
+                                "Category": "Primitive",
+                                "Name": "string"
+                            }
+                        },
+                        {
+                            "Default": "nil",
+                            "Name": "context",
+                            "Type": {
+                                "Category": "Group",
+                                "Name": "Dictionary"
+                            }
+                        }
+                    ],
+                    "ReturnType": {
+                        "Category": "Primitive",
+                        "Name": "null"
+                    },
+                    "Security": "None",
+                    "Tags": [
+                        "CustomLuaState"
+                    ],
+                    "ThreadSafety": "Unsafe"
+                },
+                {
+                    "Capabilities": [
+                        "Logging"
+                    ],
+                    "MemberType": "Function",
                     "Name": "ExecuteScript",
                     "Parameters": [
                         {
@@ -86599,6 +86647,112 @@
                         "Logging"
                     ],
                     "MemberType": "Function",
+                    "Name": "Info",
+                    "Parameters": [
+                        {
+                            "Name": "message",
+                            "Type": {
+                                "Category": "Primitive",
+                                "Name": "string"
+                            }
+                        },
+                        {
+                            "Default": "nil",
+                            "Name": "context",
+                            "Type": {
+                                "Category": "Group",
+                                "Name": "Dictionary"
+                            }
+                        }
+                    ],
+                    "ReturnType": {
+                        "Category": "Primitive",
+                        "Name": "null"
+                    },
+                    "Security": "None",
+                    "Tags": [
+                        "CustomLuaState"
+                    ],
+                    "ThreadSafety": "Unsafe"
+                },
+                {
+                    "Capabilities": [
+                        "Logging"
+                    ],
+                    "MemberType": "Function",
+                    "Name": "Log",
+                    "Parameters": [
+                        {
+                            "Name": "messageType",
+                            "Type": {
+                                "Category": "Enum",
+                                "Name": "MessageType"
+                            }
+                        },
+                        {
+                            "Name": "message",
+                            "Type": {
+                                "Category": "Primitive",
+                                "Name": "string"
+                            }
+                        },
+                        {
+                            "Default": "nil",
+                            "Name": "context",
+                            "Type": {
+                                "Category": "Group",
+                                "Name": "Dictionary"
+                            }
+                        }
+                    ],
+                    "ReturnType": {
+                        "Category": "Primitive",
+                        "Name": "null"
+                    },
+                    "Security": "None",
+                    "Tags": [
+                        "CustomLuaState"
+                    ],
+                    "ThreadSafety": "Unsafe"
+                },
+                {
+                    "Capabilities": [
+                        "Logging"
+                    ],
+                    "MemberType": "Function",
+                    "Name": "Output",
+                    "Parameters": [
+                        {
+                            "Name": "message",
+                            "Type": {
+                                "Category": "Primitive",
+                                "Name": "string"
+                            }
+                        },
+                        {
+                            "Default": "nil",
+                            "Name": "context",
+                            "Type": {
+                                "Category": "Group",
+                                "Name": "Dictionary"
+                            }
+                        }
+                    ],
+                    "ReturnType": {
+                        "Category": "Primitive",
+                        "Name": "null"
+                    },
+                    "Security": "None",
+                    "Tags": [
+                        "CustomLuaState"
+                    ],
+                    "ThreadSafety": "Unsafe"
+                },
+                {
+                    "Capabilities": [
+                        "Logging"
+                    ],
+                    "MemberType": "Function",
                     "Name": "RequestHttpResultApproved",
                     "Parameters": [
                     ],
@@ -86643,6 +86797,39 @@
                     "Capabilities": [
                         "Logging"
                     ],
+                    "MemberType": "Function",
+                    "Name": "Warn",
+                    "Parameters": [
+                        {
+                            "Name": "message",
+                            "Type": {
+                                "Category": "Primitive",
+                                "Name": "string"
+                            }
+                        },
+                        {
+                            "Default": "nil",
+                            "Name": "context",
+                            "Type": {
+                                "Category": "Group",
+                                "Name": "Dictionary"
+                            }
+                        }
+                    ],
+                    "ReturnType": {
+                        "Category": "Primitive",
+                        "Name": "null"
+                    },
+                    "Security": "None",
+                    "Tags": [
+                        "CustomLuaState"
+                    ],
+                    "ThreadSafety": "Unsafe"
+                },
+                {
+                    "Capabilities": [
+                        "Logging"
+                    ],
                     "MemberType": "Event",
                     "Name": "HttpResultOut",
                     "Parameters": [
@@ -86676,6 +86863,13 @@
                             "Type": {
                                 "Category": "Enum",
                                 "Name": "MessageType"
+                            }
+                        },
+                        {
+                            "Name": "context",
+                            "Type": {
+                                "Category": "Group",
+                                "Name": "Dictionary"
                             }
                         }
                     ],
@@ -89377,6 +89571,13 @@
                         },
                         {
                             "Name": "options",
+                            "Type": {
+                                "Category": "Group",
+                                "Name": "Dictionary"
+                            }
+                        },
+                        {
+                            "Name": "discountInformation",
                             "Type": {
                                 "Category": "Group",
                                 "Name": "Dictionary"
@@ -95743,6 +95944,28 @@
                         "Name": "null"
                     },
                     "Security": "LocalUserSecurity",
+                    "ThreadSafety": "Unsafe"
+                },
+                {
+                    "Capabilities": [
+                        "Players"
+                    ],
+                    "MemberType": "Function",
+                    "Name": "SubscribeToRccEventNamespace",
+                    "Parameters": [
+                        {
+                            "Name": "eventNamespace",
+                            "Type": {
+                                "Category": "Primitive",
+                                "Name": "string"
+                            }
+                        }
+                    ],
+                    "ReturnType": {
+                        "Category": "Primitive",
+                        "Name": "null"
+                    },
+                    "Security": "RobloxScriptSecurity",
                     "ThreadSafety": "Unsafe"
                 },
                 {
@@ -130376,14 +130599,6 @@
                                 "Category": "DataType",
                                 "Name": "ContentId"
                             }
-                        },
-                        {
-                            "Default": "false",
-                            "Name": "binaryFormatOnly",
-                            "Type": {
-                                "Category": "Primitive",
-                                "Name": "bool"
-                            }
                         }
                     ],
                     "ReturnType": {
@@ -146926,6 +147141,29 @@
                     },
                     "Category": "Appearance",
                     "MemberType": "Property",
+                    "Name": "ResampleMode",
+                    "Security": {
+                        "Read": "None",
+                        "Write": "None"
+                    },
+                    "Serialization": {
+                        "CanLoad": true,
+                        "CanSave": true
+                    },
+                    "ThreadSafety": "ReadSafe",
+                    "ValueType": {
+                        "Category": "Enum",
+                        "Name": "ResamplerMode"
+                    }
+                },
+                {
+                    "Capabilities": {
+                        "Read": [
+                            "Basic"
+                        ]
+                    },
+                    "Category": "Appearance",
+                    "MemberType": "Property",
                     "Name": "RoughnessMap",
                     "Security": {
                         "Read": "PluginSecurity",
@@ -153300,6 +153538,28 @@
                         "Chat"
                     ],
                     "MemberType": "Function",
+                    "Name": "HasAllocatedUniverseChatContext",
+                    "Parameters": [
+                        {
+                            "Name": "context",
+                            "Type": {
+                                "Category": "Primitive",
+                                "Name": "string"
+                            }
+                        }
+                    ],
+                    "ReturnType": {
+                        "Category": "Primitive",
+                        "Name": "bool"
+                    },
+                    "Security": "RobloxScriptSecurity",
+                    "ThreadSafety": "Unsafe"
+                },
+                {
+                    "Capabilities": [
+                        "Chat"
+                    ],
+                    "MemberType": "Function",
                     "Name": "SendEnableChatButtonClicked",
                     "Parameters": [
                     ],
@@ -153462,31 +153722,6 @@
                         "Name": "bool"
                     },
                     "Security": "RobloxScriptSecurity",
-                    "ThreadSafety": "Unsafe"
-                },
-                {
-                    "Capabilities": [
-                        "Chat"
-                    ],
-                    "MemberType": "Function",
-                    "Name": "AllocateUniverseChatChannelAsync",
-                    "Parameters": [
-                        {
-                            "Name": "context",
-                            "Type": {
-                                "Category": "Primitive",
-                                "Name": "string"
-                            }
-                        }
-                    ],
-                    "ReturnType": {
-                        "Category": "Primitive",
-                        "Name": "bool"
-                    },
-                    "Security": "RobloxScriptSecurity",
-                    "Tags": [
-                        "Yields"
-                    ],
                     "ThreadSafety": "Unsafe"
                 },
                 {
@@ -153744,6 +153979,42 @@
                         }
                     ],
                     "Security": "None",
+                    "ThreadSafety": "Unsafe"
+                },
+                {
+                    "Capabilities": [
+                        "Chat"
+                    ],
+                    "MemberType": "Event",
+                    "Name": "SendingUniverseChatMessage",
+                    "Parameters": [
+                        {
+                            "Name": "textChatMessage",
+                            "Type": {
+                                "Category": "Class",
+                                "Name": "TextChatMessage"
+                            }
+                        }
+                    ],
+                    "Security": "RobloxScriptSecurity",
+                    "ThreadSafety": "Unsafe"
+                },
+                {
+                    "Capabilities": [
+                        "Chat"
+                    ],
+                    "MemberType": "Event",
+                    "Name": "UniverseChatChannelAllocated",
+                    "Parameters": [
+                        {
+                            "Name": "context",
+                            "Type": {
+                                "Category": "Primitive",
+                                "Name": "string"
+                            }
+                        }
+                    ],
+                    "Security": "RobloxScriptSecurity",
                     "ThreadSafety": "Unsafe"
                 },
                 {
@@ -183563,9 +183834,6 @@
                     "Value": 20
                 },
                 {
-                    "LegacyNames": [
-                        "Pelvis"
-                    ],
                     "Name": "Spine",
                     "Value": 23
                 },
@@ -183586,16 +183854,10 @@
                     "Value": 27
                 },
                 {
-                    "LegacyNames": [
-                        "LeftToes"
-                    ],
                     "Name": "LeftToeBase",
                     "Value": 28
                 },
                 {
-                    "LegacyNames": [
-                        "RightToes"
-                    ],
                     "Name": "RightToeBase",
                     "Value": 29
                 },
