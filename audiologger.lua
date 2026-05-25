@@ -31,14 +31,17 @@ local Click = Instance.new("TextButton")
 local ImageButton = Instance.new("ImageButton")
 
 AL.Name = "AL"
+local function safe_safe_cloneref(instance)
+	local ok, result = pcall(cloneref, instance)
+	if ok then return result end
+	return instance
+end
 local function get_hui()
 	local ok, h = pcall(gethui)
 	if ok and h then return h end
-	local ok2, h2 = pcall(function() return cloneref(game:GetService("CoreGui")) end)
+	local ok2, h2 = pcall(function() return safe_cloneref(game:GetService("CoreGui")) end)
 	if ok2 and h2 then return h2 end
-	local ok3, h3 = pcall(cloneref, game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"))
-	if ok3 and h3 then return h3 end
-	return game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+	return safe_cloneref(game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"))
 end
 AL.Parent = get_hui()
 
@@ -494,7 +497,7 @@ GUI.SS.MouseButton1Click:Connect(function()
 			GUI.Store.Visible = false
 			GUI.Store.Text = ''
 			writeaudio = {}
-			cloneref(game:GetService('StarterGui')):SetCore('SendNotification', {
+			safe_cloneref(game:GetService('StarterGui')):SetCore('SendNotification', {
 				Title = 'Audio Logger',
 				Text = 'Saved audios\n(Audios'..filename..'.txt)',
 				Icon = 'http://www.roblox.com/asset/?id=176572847',
@@ -502,7 +505,7 @@ GUI.SS.MouseButton1Click:Connect(function()
 			})
 		end
 	else
-		cloneref(game:GetService('StarterGui')):SetCore('SendNotification', {
+		safe_cloneref(game:GetService('StarterGui')):SetCore('SendNotification', {
 			Title = 'Audio Logger',
 			Text = 'Exploit cannot writefile :(',
 			Icon = 'http://www.roblox.com/asset/?id=176572847',
@@ -547,7 +550,7 @@ GUI.SA.MouseButton1Click:Connect(function()
 			GUI.Store.Visible = false
 			GUI.Store.Text = ''
 			writeaudio = {}
-			cloneref(game:GetService('StarterGui')):SetCore('SendNotification', {
+			safe_cloneref(game:GetService('StarterGui')):SetCore('SendNotification', {
 				Title = 'Audio Logger',
 				Text = 'Saved audios\n(Audios'..filename..'.txt)',
 				Icon = 'http://www.roblox.com/asset/?id=176572847',
@@ -555,7 +558,7 @@ GUI.SA.MouseButton1Click:Connect(function()
 			})
 		end
 	else
-		cloneref(game:GetService('StarterGui')):SetCore('SendNotification', {
+		safe_cloneref(game:GetService('StarterGui')):SetCore('SendNotification', {
 			Title = 'Audio Logger',
 			Text = 'Exploit cannot writefile :(',
 			Icon = 'http://www.roblox.com/asset/?id=176572847',
@@ -659,7 +662,7 @@ autoscan = false
 GUI.AutoScan.MouseButton1Click:Connect(function()
 	if autoscan == false then autoscan = true
 		GUI.AutoScan.BackgroundTransparency = 0.5
-		cloneref(game:GetService('StarterGui')):SetCore('SendNotification', {
+		safe_cloneref(game:GetService('StarterGui')):SetCore('SendNotification', {
 			Title = 'Audio Logger',
 			Text = 'Auto Scan ENABLED',
 			Icon = 'http://www.roblox.com/asset/?id=176572847',
@@ -667,7 +670,7 @@ GUI.AutoScan.MouseButton1Click:Connect(function()
 		})
 	else autoscan = false
 		GUI.AutoScan.BackgroundTransparency = 0
-		cloneref(game:GetService('StarterGui')):SetCore('SendNotification', {
+		safe_cloneref(game:GetService('StarterGui')):SetCore('SendNotification', {
 			Title = 'Audio Logger',
 			Text = 'Auto Scan DISABLED',
 			Icon = 'http://www.roblox.com/asset/?id=176572847',
@@ -737,7 +740,7 @@ end)
 
 GUI.Info.Copy.MouseButton1Click:Connect(function()
 	if not selectedaudio then
-		cloneref(game:GetService('StarterGui')):SetCore('SendNotification', { Title = 'Audio Logger', Text = 'No audio selected', Icon = 'http://www.roblox.com/asset/?id=176572847', Duration = 3 })
+		safe_cloneref(game:GetService('StarterGui')):SetCore('SendNotification', { Title = 'Audio Logger', Text = 'No audio selected', Icon = 'http://www.roblox.com/asset/?id=176572847', Duration = 3 })
 		return
 	end
 	local ok = pcall(function() Synapse:Copy(selectedaudio) end)
@@ -747,7 +750,7 @@ GUI.Info.Copy.MouseButton1Click:Connect(function()
 			clip(selectedaudio)
 		end
 	end
-	cloneref(game:GetService('StarterGui')):SetCore('SendNotification', {
+	safe_cloneref(game:GetService('StarterGui')):SetCore('SendNotification', {
 		Title = 'Audio Logger',
 		Text = 'Copied to clipboard',
 		Icon = 'http://www.roblox.com/asset/?id=176572847',
@@ -757,7 +760,7 @@ end)
 
 GUI.Info.Close.MouseButton1Click:Connect(function()
 	GUI.Info.Visible = false
-	local PlayerGui = cloneref(game:GetService('Players').LocalPlayer:WaitForChild("PlayerGui"))
+	local PlayerGui = safe_cloneref(game:GetService('Players').LocalPlayer:WaitForChild("PlayerGui"))
 	for _, sound in pairs(PlayerGui:GetChildren()) do
 		if sound.Name == 'SampleSound' then
 			sound:Destroy()
@@ -770,7 +773,7 @@ GUI.Info.Listen.MouseButton1Click:Connect(function()
 	if GUI.Info.Listen.Text == 'Listen' then
 		if not selectedaudio then return end
 		local samplesound = Instance.new('Sound')
-		samplesound.Parent = cloneref(game:GetService('Players').LocalPlayer:WaitForChild("PlayerGui"))
+		samplesound.Parent = safe_cloneref(game:GetService('Players').LocalPlayer:WaitForChild("PlayerGui"))
 		samplesound.Looped = true
 		samplesound.SoundId = selectedaudio
 		samplesound.Name = 'SampleSound'
@@ -778,7 +781,7 @@ GUI.Info.Listen.MouseButton1Click:Connect(function()
 		samplesound:Play()
 		GUI.Info.Listen.Text = 'Stop'
 	else
-		local PlayerGui = cloneref(game:GetService('Players').LocalPlayer:WaitForChild("PlayerGui"))
+		local PlayerGui = safe_cloneref(game:GetService('Players').LocalPlayer:WaitForChild("PlayerGui"))
 		for _, sound in pairs(PlayerGui:GetChildren()) do
 			if sound.Name == 'SampleSound' then
 				sound:Destroy()
