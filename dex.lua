@@ -11834,7 +11834,7 @@ Main = (function()
 		env.request = missing("function", request or http_request or (syn and syn.request) or (http and http.request) or (fluxus and fluxus.request))
 		env.decompile = missing("function", decompile) or (env.getscriptbytecode and env.request and (function()
 			local success, err = pcall(function()
-				loadstring(oldgame:HttpGet("https://raw.githubusercontent.com/infyiff/backup/refs/heads/main/konstant.lua"))()
+				loadstring(oldgame:HttpGet("https://raw.githubusercontent.com/corecommit/backup/refs/heads/main/konstant.lua"))()
 			end)
 
 			return (success and decompile) or nil
@@ -11930,7 +11930,7 @@ Main = (function()
 
 		-- backup for kaboom
 		if not api then
-			rawAPI = oldgame:HttpGet("https://raw.githubusercontent.com/infyiff/backup/refs/heads/main/rbx_api.dat")
+			rawAPI = oldgame:HttpGet("https://raw.githubusercontent.com/corecommit/backup/refs/heads/main/rbx_api.dat")
 			Main.RawAPI = rawAPI
 			api = jsonDecode(rawAPI)
 		end
@@ -12627,7 +12627,7 @@ Main = (function()
 
 			-- backup for kaboom
 			if #Main.RobloxVersion < 1 then
-				Main.RobloxVersion = oldgame:HttpGet("https://raw.githubusercontent.com/infyiff/backup/refs/heads/main/deps_version.dat"):gsub("%s+", "")
+				Main.RobloxVersion = oldgame:HttpGet("https://raw.githubusercontent.com/corecommit/backup/refs/heads/main/deps_version.dat"):gsub("%s+", "")
 			end
 		end
 

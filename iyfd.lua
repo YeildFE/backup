@@ -14019,7 +14019,7 @@ PromptDialog:TweenPosition(UDim2.new(0.5, -219, 0, 150), "InOut", "Quart", 0.4, 
 PromptDialog:TweenPosition(UDim2.new(0.5, -219, 0, -400), "InOut", "Quart", 0.5, true, nil)
 for _, child in pairs(game.CoreGui:GetChildren()) do
 if child.Name == "IYrun" then child:Destroy() end end task.wait(0.5)
-Updates:Destroy() loadstring(game:HttpGet(('https://raw.githubusercontent.com/infyiff/backup/refs/heads/main/iyfd.lua'),true))() end UPDATE.MouseButton1Down:Connect(Click) end 
+Updates:Destroy() loadstring(game:HttpGet(('https://raw.githubusercontent.com/corecommit/backup/refs/heads/main/iyfd.lua'),true))() end UPDATE.MouseButton1Down:Connect(Click) end 
 else print('Infinite Yield is already running.') end
 --script end
 end

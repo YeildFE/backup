@@ -55,11 +55,14 @@ local set_thread_identity = (syn and syn.set_thread_identity) or setidentity
 local islclosure = islclosure or (is_l_closure and is_l_closure) or function()
     return true
 end
-local threadfuncs = (get_thread_identity and set_thread_identity and true) or false
-
 local getinfo = getinfo or blankfunction
 local getupvalues = getupvalues or debug.getupvalues or blankfunction
 local getconstants = getconstants or debug.getconstants or blankfunction
+local safe_checkcaller = checkcaller or function() return false end
+local safe_getnamecallmethod = getnamecallmethod or function() return nil end
+local safe_getnilinstances = getnilinstances or function() return {} end
+local safe_getprotos = getprotos or function() return "N/A" end
+local safe_restorefunction = restorefunction or blankfunction
 
 local getcustomasset = getsynasset or getcustomasset
 local getcallingscript = getcallingscript or blankfunction
@@ -92,6 +95,10 @@ local hookmetamethod = hookmetamethod or ((makewriteable and makereadonly and ge
         return oldmetamethod
     end
 end or nil)
+
+if not hookmetamethod and not (getrawmetatable and hookfunction) then
+    warn("SimpleSpy: No hook method available (requires hookmetamethod or getrawmetatable + hookfunction)")
+end
 
 local function Create(instance, properties, children)
     local obj = Instance.new(instance)
@@ -223,8 +230,8 @@ function ErrorPrompt(Message,state)
     end
 end
 
-local Highlight = (isfile and loadfile and isfile("Highlight.lua") and loadfile("Highlight.lua")()) or loadstring(game:HttpGet("https://raw.githubusercontent.com/infyiff/backup/refs/heads/main/SimpleSpyV3/highlight.lua"))()
-local LazyFix = loadstring(game:HttpGet("https://raw.githubusercontent.com/infyiff/backup/refs/heads/main/SimpleSpyV3/DataToCode.lua"))() -- Very lazy fix as I'm legit just pasting it from the rewrite
+local Highlight = (isfile and loadfile and isfile("Highlight.lua") and loadfile("Highlight.lua")()) or loadstring(game:HttpGet("https://raw.githubusercontent.com/corecommit/backup/refs/heads/main/SimpleSpyV3/highlight.lua"))()
+local LazyFix = loadstring(game:HttpGet("https://raw.githubusercontent.com/corecommit/backup/refs/heads/main/SimpleSpyV3/DataToCode.lua"))() -- Very lazy fix as I'm legit just pasting it from the rewrite
 
 local SimpleSpy3 = Create("ScreenGui",{ResetOnSpawn = false})
 local Storage = Create("Folder",{})
@@ -381,11 +388,12 @@ end
 --- Prevents remote spam from causing lag (clears logs after `getgenv().SIMPLESPYCONFIG_MaxRemotes` or 500 remotes)
 function clean()
     local max = getgenv().SIMPLESPYCONFIG_MaxRemotes
-    if not typeof(max) == "number" and math.floor(max) ~= max then
+    if typeof(max) ~= "number" and math.floor(max) ~= max then
         max = 500
     end
     if #remoteLogs > max then
-        for i = 100, #remoteLogs do
+        local keepCount = math.floor(max * 0.75)
+        for i = keepCount + 1, #remoteLogs do
             local v = remoteLogs[i]
             if typeof(v[1]) == "RBXScriptConnection" then
                 v[1]:Disconnect()
@@ -395,7 +403,7 @@ function clean()
             end
         end
         local newLogs = {}
-        for i = 1, 100 do
+        for i = 1, keepCount do
             table.insert(newLogs, remoteLogs[i])
         end
         remoteLogs = newLogs
@@ -542,6 +550,7 @@ end
 --- Fades out the table of elements (and makes them invisible), returns a function to make them visible again
 function fadeOut(elements)
     local data = {}
+    local cancelled = false
     for _, v in next, elements do
         if typeof(v) == "Instance" and v:IsA("GuiObject") and v.Visible then
             spawn(function()
@@ -557,6 +566,7 @@ function fadeOut(elements)
                     TweenService:Create(v, TweenInfo.new(0.5), {ImageTransparency = 1}):Play()
                 end
                 delay(0.5,function()
+                    if cancelled then return end
                     v.Visible = false
                     for i, x in next, data[v] do
                         v[i] = x
@@ -567,6 +577,7 @@ function fadeOut(elements)
         end
     end
     return function()
+        cancelled = true
         for i, _ in next, data do
             spawn(function()
                 local properties = {
@@ -1281,10 +1292,6 @@ function v2v(t)
     return ret
 end
 
-function tabletostring(tbl: table,format: boolean)
-    
-end
-
 --- table-to-string
 --- @param t table
 --- @param l number
@@ -1600,7 +1607,7 @@ function getScriptFromSrc(src)
         s = 2
     else
         runningTest = src:sub(2, e and e - 1 or -1)
-        for _, v in next, getnilinstances() do
+        for _, v in next, safe_getnilinstances() do
             if v.Name == runningTest then
                 realPath = v
                 break
@@ -1711,7 +1718,7 @@ local newindex = function(method,originalfunction,...)
         local remote = cloneref(...)
 
         if remote:IsA("RemoteEvent") or remote:IsA("RemoteFunction") or remote:IsA("UnreliableRemoteEvent") then
-            if not configs.logcheckcaller and checkcaller() then return originalfunction(...) end
+            if not configs.logcheckcaller and safe_checkcaller() then return originalfunction(...) end
             local id = ThreadGetDebugId(remote)
             local blockcheck = tablecheck(blocklist,remote,id)
             local args = {select(2,...)}
@@ -1721,8 +1728,8 @@ local newindex = function(method,originalfunction,...)
                     method = method,
                     remote = remote,
                     args = deepclone(args),
-                    infofunc = infofunc,
-                    callingscript = callingscript,
+                    infofunc = nil,
+                    callingscript = nil,
                     metamethod = "__index",
                     blockcheck = blockcheck,
                     id = id,
@@ -1764,7 +1771,7 @@ local newindex = function(method,originalfunction,...)
 end
 
 local newnamecall = newcclosure(function(...)
-    local method = getnamecallmethod()
+    local method = safe_getnamecallmethod()
 
     if method and (method == "FireServer" or method == "fireServer" or method == "InvokeServer" or method == "invokeServer") then
         if typeof(...) == 'Instance' then
@@ -1781,8 +1788,8 @@ local newnamecall = newcclosure(function(...)
                         method = method,
                         remote = remote,
                         args = deepclone(args),
-                        infofunc = infofunc,
-                        callingscript = callingscript,
+                        infofunc = nil,
+                        callingscript = nil,
                         metamethod = "__namecall",
                         blockcheck = blockcheck,
                         id = id,
@@ -1844,9 +1851,9 @@ local function disablehooks()
         unhook(Instance.new("RemoteEvent").FireServer, originalEvent)
         unhook(Instance.new("RemoteFunction").InvokeServer, originalFunction)
         unhook(Instance.new("UnreliableRemoteEvent").FireServer, originalUnreliableEvent)
-        restorefunction(originalnamecall)
-        restorefunction(originalEvent)
-        restorefunction(originalFunction)
+        safe_restorefunction(originalnamecall)
+        safe_restorefunction(originalEvent)
+        safe_restorefunction(originalFunction)
     else
         if hookmetamethod then
             hookmetamethod(game,"__namecall",originalnamecall)
@@ -1929,12 +1936,12 @@ if not getgenv().SimpleSpyExecuted then
         end
         codebox = Highlight.new(CodeBox)
         logthread(spawn(function()
-            local suc,err = pcall(game.HttpGet,game,"https://raw.githubusercontent.com/infyiff/backup/refs/heads/main/SimpleSpyV3/update.txt")
+            local suc,err = pcall(game.HttpGet,game,"https://raw.githubusercontent.com/corecommit/backup/refs/heads/main/SimpleSpyV3/update.txt")
             codebox:setRaw((suc and err) or "")
         end))
         getgenv().SimpleSpy = SimpleSpy
         getgenv().getNil = function(name,class)
-            for _,v in next, getnilinstances() do
+            for _,v in next, safe_getnilinstances() do
                 if v.ClassName == class and v.Name == name then
                     return v;
                 end
@@ -1966,7 +1973,15 @@ if not getgenv().SimpleSpyExecuted then
         end))
         schedulerconnect = RunService.Heartbeat:Connect(taskscheduler)
         bringBackOnResize()
-        SimpleSpy3.Parent = (gethui and gethui()) or (syn and syn.protect_gui and syn.protect_gui(SimpleSpy3)) or CoreGui
+        local parent = nil
+        local ok, hui = pcall(gethui)
+        if ok and hui then parent = hui end
+        if not parent and syn and syn.protect_gui then
+            local ok2 = pcall(syn.protect_gui, SimpleSpy3)
+            if ok2 then parent = CoreGui end
+        end
+        if not parent then parent = CoreGui end
+        SimpleSpy3.Parent = parent
         logthread(spawn(function()
             local lp = Players.LocalPlayer or Players:GetPropertyChangedSignal("LocalPlayer"):Wait() or Players.LocalPlayer
             generation = {
@@ -2112,7 +2127,7 @@ function()
                         CallingScriptDebugId = CallingScript and typeof(SourceScript) == "Instance" and OldDebugId(CallingScript) or "N/A",
                         RemoteDebugId = OldDebugId(Remote)
                     },
-                    Protos = lclosure and getprotos(func) or "N/A --Lua Closure expected got C Closure"
+                    Protos = lclosure and safe_getprotos(func) or "N/A --Lua Closure expected got C Closure"
                 }
 
                 if Remote:IsA("RemoteFunction") then
@@ -2344,10 +2359,14 @@ if configs.supersecretdevtoggle then
         return "You dont need a discription you already know what it does"
     end,
     function()
-        SuperSecretFolder:ClearAllChildren()
-        local random = listfiles("Music")
-        local NotSound = Create("Sound",{Parent = SuperSecretFolder,Looped = false,Volume = math.random(1,5),SoundId = getsynasset(random[math.random(1,#random)])})
-        NotSound:Play()
+        local ok, files = pcall(listfiles, "Music")
+        if ok and files and #files > 0 then
+            local soundId = pcall(getsynasset, files[math.random(1, #files)])
+            if soundId then
+                local NotSound = Create("Sound",{Parent = SuperSecretFolder,Looped = false,Volume = math.random(1,5),SoundId = soundId})
+                NotSound:Play()
+            end
+        end
     end)
 end
 

@@ -21,7 +21,7 @@ local DEFAULT_OPTIONS = {
 }
 
 local function LoadFromUrl(x)
-	local BASE_URL = "https://raw.githubusercontent.com/infyiff/backup/refs/heads/main/AdvancedDecompilerV3/%s.lua"
+	local BASE_URL = "https://raw.githubusercontent.com/corecommit/backup/refs/heads/main/AdvancedDecompilerV3/%s.lua"
 
 	local loadSuccess, loadResult = pcall(function()
 		local formattedUrl = string.format(BASE_URL, x)

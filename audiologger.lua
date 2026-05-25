@@ -31,17 +31,26 @@ local Click = Instance.new("TextButton")
 local ImageButton = Instance.new("ImageButton")
 
 AL.Name = "AL"
-local function safe_safe_cloneref(instance)
-	local ok, result = pcall(cloneref, instance)
-	if ok then return result end
+local function safe_cloneref(instance)
+	if cloneref then
+		local ok, result = pcall(cloneref, instance)
+		if ok then return result end
+	end
 	return instance
+end
+local function get_player_gui()
+	local ok, result = pcall(function()
+		return safe_cloneref(game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"))
+	end)
+	if ok then return result end
+	return nil
 end
 local function get_hui()
 	local ok, h = pcall(gethui)
 	if ok and h then return h end
 	local ok2, h2 = pcall(function() return safe_cloneref(game:GetService("CoreGui")) end)
 	if ok2 and h2 then return h2 end
-	return safe_cloneref(game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"))
+	return get_player_gui()
 end
 AL.Parent = get_hui()
 
@@ -760,10 +769,12 @@ end)
 
 GUI.Info.Close.MouseButton1Click:Connect(function()
 	GUI.Info.Visible = false
-	local PlayerGui = safe_cloneref(game:GetService('Players').LocalPlayer:WaitForChild("PlayerGui"))
-	for _, sound in pairs(PlayerGui:GetChildren()) do
-		if sound.Name == 'SampleSound' then
-			sound:Destroy()
+	local PlayerGui = get_player_gui()
+	if PlayerGui then
+		for _, sound in pairs(PlayerGui:GetChildren()) do
+			if sound.Name == 'SampleSound' then
+				sound:Destroy()
+			end
 		end
 	end
 	GUI.Info.Listen.Text = 'Listen'
@@ -773,7 +784,7 @@ GUI.Info.Listen.MouseButton1Click:Connect(function()
 	if GUI.Info.Listen.Text == 'Listen' then
 		if not selectedaudio then return end
 		local samplesound = Instance.new('Sound')
-		samplesound.Parent = safe_cloneref(game:GetService('Players').LocalPlayer:WaitForChild("PlayerGui"))
+		samplesound.Parent = get_player_gui()
 		samplesound.Looped = true
 		samplesound.SoundId = selectedaudio
 		samplesound.Name = 'SampleSound'
@@ -781,13 +792,15 @@ GUI.Info.Listen.MouseButton1Click:Connect(function()
 		samplesound:Play()
 		GUI.Info.Listen.Text = 'Stop'
 	else
-		local PlayerGui = safe_cloneref(game:GetService('Players').LocalPlayer:WaitForChild("PlayerGui"))
-		for _, sound in pairs(PlayerGui:GetChildren()) do
+		local PlayerGui = get_player_gui()
+		if PlayerGui then
+			for _, sound in pairs(PlayerGui:GetChildren()) do
 			if sound.Name == 'SampleSound' then
 				sound:Destroy()
 			end
 		end
-		GUI.Info.Listen.Text = 'Listen'
+	end
+	GUI.Info.Listen.Text = 'Listen'
 	end
 end)
 
