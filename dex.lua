@@ -407,7 +407,7 @@ local EmbeddedModules = {
 				table.clear(tree)
 				local maxNameWidth,maxDepth,count = 0,1,1
 				local nameCache = {}
-				local font = Enum.Font.SourceSans
+				local font = Enum.Font.BuilderSans
 				local size = Vector2.new(math.huge,20)
 				local useNameWidth = Settings.Explorer.UseNameWidth
 				local tSort = table.sort
@@ -2897,7 +2897,7 @@ local EmbeddedModules = {
 
 				local textServ = service.TextService
 				local getTextSize = textServ.GetTextSize
-				local font = Enum.Font.SourceSans
+				local font = Enum.Font.BuilderSans
 				local size = Vector2.new(math.huge,20)
 				local stringSplit = string.split
 				local entryIndent = Properties.EntryIndent
@@ -3026,7 +3026,7 @@ local EmbeddedModules = {
 						local fullNameFrame = Properties.FullNameFrame	
 						local nameArr = string.split(prop.Class.."."..prop.Name..(prop.SubName or ""), ".")
 						local dispName = prop.DisplayName or nameArr[#nameArr]
-						local sizeX = service.TextService:GetTextSize(dispName, 14, Enum.Font.SourceSans, Vector2.new(math.huge, 20)).X
+						local sizeX = service.TextService:GetTextSize(dispName, 14, Enum.Font.BuilderSans, Vector2.new(math.huge, 20)).X
 
 						fullNameFrame.TextLabel.Text = dispName
 						fullNameFrame.Size = UDim2.new(0, sizeX + 4, 0, 22)
@@ -3740,7 +3740,7 @@ local EmbeddedModules = {
 								valueFrame.Visible = false
 
 								propNameBox.Text = prop.CategoryName
-								propNameBox.Font = Enum.Font.SourceSansBold
+								propNameBox.Font = Enum.Font.BuilderSansBold
 								expand.Visible = true
 								propNameBox.TextColor3 = Settings.Theme.Text
 								nameFrame.BackgroundTransparency = 1
@@ -3776,7 +3776,7 @@ local EmbeddedModules = {
 
 								local nameArr = stringSplit(gName,".")
 								propNameBox.Text = prop.DisplayName or nameArr[#nameArr]
-								propNameBox.Font = Enum.Font.SourceSans
+								propNameBox.Font = Enum.Font.BuilderSans
 								entry.BackgroundColor3 = Settings.Theme.Main2
 								valueFrame.Visible = true
 
@@ -6491,7 +6491,7 @@ local EmbeddedModules = {
 
 				funcs.ShowAndFocus = function(self,data)
 					static.ShowWindow(self,data)
-					service.RunService.RenderStepped:wait()
+					service.RunService.RenderStepped:Wait()
 					self:Focus()
 				end
 
@@ -6816,7 +6816,7 @@ local EmbeddedModules = {
 
 				funcs.AddDivider = function(self,text)
 					self.QueuedDivider = false
-					local textWidth = text and service.TextService:GetTextSize(text,14,Enum.Font.SourceSans,Vector2.new(999999999,20)).X or nil
+					local textWidth = text and service.TextService:GetTextSize(text,14,Enum.Font.BuilderSans,Vector2.new(999999999,20)).X or nil
 					table.insert(self.Items,{Divider = true, Text = text, TextSize = textWidth and textWidth+4})
 					self.Updated = nil
 				end
@@ -8343,7 +8343,7 @@ local EmbeddedModules = {
 				local new = Instance.new
 				local TweenSize = new("Frame").TweenSize
 				local ti = TweenInfo.new
-				local delay = delay
+				local delay = task.delay
 
 				local function ripple(object, color)
 					local circle = new('Frame')
@@ -10116,7 +10116,7 @@ local EmbeddedModules = {
 					textBox.BorderColor3 = Settings.Theme.Outline3
 					textBox.ClearTextOnFocus = false
 					textBox.TextColor3 = Settings.Theme.Text
-					textBox.Font = Enum.Font.SourceSans
+					textBox.Font = Enum.Font.BuilderSans
 					textBox.TextSize = 14
 					textBox.Text = ""
 					return convert(textBox)
@@ -10137,7 +10137,7 @@ local EmbeddedModules = {
 					label.TextColor3 = Settings.Theme.Text
 					label.TextTransparency = 0.1
 					label.Size = UDim2.new(0,100,0,20)
-					label.Font = Enum.Font.SourceSans
+					label.Font = Enum.Font.BuilderSans
 					label.TextSize = 14
 
 					local obj = setmetatable({
@@ -10208,7 +10208,7 @@ local EmbeddedModules = {
 					b.TextColor3 = Settings.Theme.Text
 					b.TextTransparency = 0.1
 					b.Size = UDim2.new(0,100,0,20)
-					b.Font = Enum.Font.SourceSans
+					b.Font = Enum.Font.BuilderSans
 					b.TextSize = 14
 					b.BackgroundColor3 = Settings.Theme.Button
 					b.BorderColor3 = Settings.Theme.Outline2
@@ -11644,7 +11644,7 @@ local Settings = {}
 local Apps = {}
 local env = {}
 
-local plr = service.Players.LocalPlayer or service.Players.PlayerAdded:wait()
+local plr = service.Players.LocalPlayer or service.Players.PlayerAdded:Wait()
 
 local create = function(data)
 	local insts = {}
@@ -11710,7 +11710,7 @@ Main = (function()
 	Main.Error = function(str)
 		if rconsoleprint then
 			rconsoleprint("DEX ERROR: "..tostring(str).."\n")
-			wait(9e9)
+			task.wait(9e9)
 		else
 			error(str)
 		end
@@ -12387,7 +12387,7 @@ Main = (function()
 
 		updateState()
 
-		local ySize = service.TextService:GetTextSize(data.Name,14,Enum.Font.SourceSans,Vector2.new(62,999999)).Y
+		local ySize = service.TextService:GetTextSize(data.Name,14,Enum.Font.BuilderSans,Vector2.new(62,999999)).Y
 		app.Main.Size = UDim2.new(1,0,0,math.clamp(46+ySize,60,74))
 		app.Main.AppName.Text = data.Name
 

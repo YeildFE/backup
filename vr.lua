@@ -5,9 +5,9 @@
 local game = game
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
-local sethidden = sethiddenproperty or set_hidden_property or set_hidden_prop
+local sethidden = sethiddenproperty or set_hidden_property or set_hidden_prop or function() warn("[vr] sethidden not available") end
 coroutine.wrap(function()
-    while wait() do
+    while task.wait() do
         sethidden(Players.LocalPlayer, "SimulationRadius", math.huge)
         sethidden(Players.LocalPlayer, "MaximumSimulationRadius", math.huge)
     end
@@ -341,7 +341,7 @@ Script = function()
             Platform.Transparency = 1
             Platform.Parent = workspace
             Character:MoveTo(Platform.Position + Vector3.new(0, 5, 0))
-            wait(.5)
+            task.wait(.5)
         end
         if AnchorCharacter then
             for _, Part in pairs(Character:GetChildren()) do
@@ -425,7 +425,7 @@ Script = function()
                 return Weld
             end
         end
-        wait(.2)
+        task.wait(.2)
         for _, Weld in next, Character:GetDescendants() do
             if Weld:IsA("Weld") and (Weld.Part0 == Handle or Weld.Part1 == Handle) then
                 return Weld
@@ -454,7 +454,7 @@ Script = function()
                 Accessory.Handle.Mesh:Destroy()
             end
         end
-        wait()
+        task.wait()
         local Handle = Accessory:WaitForChild("Handle")
         if Handle:FindFirstChildWhichIsA("Weld", true) then
             Handle:FindFirstChildWhichIsA("Weld", true):Destroy()
@@ -466,7 +466,7 @@ Script = function()
         Handle.Transparency = 0.5
         UsedAccessories[Accessory] = true
         local RightGrip = CreateRightGrip(Handle)
-        wait()
+        task.wait()
         for _, Object in pairs(Handle:GetDescendants()) do
             if not Object:IsA("BasePart") then
                 pcall(
@@ -700,7 +700,7 @@ Script = function()
     end
     local function UpdateFooting()
         if not VirtualRig:FindFirstChild("LowerTorso") then
-            wait()
+            task.wait()
             return
         end
         local Floor, FloorPosition, FloorNormal, Dist = FloorRay(VirtualRig.LowerTorso, 3)
@@ -992,7 +992,7 @@ Script = function()
             end
         end
     )
-    spawn(
+    task.spawn(
         function()
             while Character and Character.Parent do
                 FootYield()
@@ -1110,7 +1110,7 @@ Script = function()
                 --Network:Unclaim()
             end
             if AutoRun then
-                delay(
+                task.delay(
                     2,
                     function()
                         Script()
@@ -1120,10 +1120,10 @@ Script = function()
         end
     )
     if ChatEnabled then
-        spawn(ChatHUDFunc)
+        task.spawn(ChatHUDFunc)
     end
     if ViewportEnabled then
-        spawn(ViewHUDFunc)
+        task.spawn(ViewHUDFunc)
     end
     do
         --[[
@@ -1205,10 +1205,10 @@ Permadeath = function()
     z1.Position = Vector3.new(0, 9999, 0)
     z2.Position = Vector3.new(0, 9991, 0)
     Players.LocalPlayer.Character = prt
-    wait(Players.RespawnTime/2)
+    task.wait(Players.RespawnTime/2)
     -- warn("50%")
     Players.LocalPlayer.Character = ch
-    wait(Players.RespawnTime/2 + 0.5)
+    task.wait(Players.RespawnTime/2 + 0.5)
     -- warn("100%")
 end
 Respawn = function()
@@ -1231,7 +1231,7 @@ Respawn = function()
     z1.Position = Vector3.new(0, 9999, 0)
     z2.Position = Vector3.new(0, 9991, 0)
     Players.LocalPlayer.Character = prt
-    wait(Players.RespawnTime)
+    task.wait(Players.RespawnTime)
     Players.LocalPlayer.Character = ch
 end
 ChatHUDFunc = function()
@@ -1261,16 +1261,16 @@ ChatHUDFunc = function()
     local OpenGlobalTab = function()
         Global.Frame.BackgroundColor3 = Highlight
         Local.Frame.BackgroundColor3 = Deselected
-        Global.Font = Enum.Font.SourceSansBold
-        Local.Font = Enum.Font.SourceSans
+        Global.Font = Enum.Font.BuilderSansBold
+        Local.Font = Enum.Font.BuilderSans
         GlobalFrame.Visible = true
         LocalFrame.Visible = false
     end
     local OpenLocalTab = function()
         Global.Frame.BackgroundColor3 = Deselected
         Local.Frame.BackgroundColor3 = Highlight
-        Global.Font = Enum.Font.SourceSans
-        Local.Font = Enum.Font.SourceSansBold
+        Global.Font = Enum.Font.BuilderSans
+        Local.Font = Enum.Font.BuilderSansBold
         GlobalFrame.Visible = false
         LocalFrame.Visible = true
     end
@@ -1292,7 +1292,7 @@ ChatHUDFunc = function()
         Frame.User.TextColor3 = Color
         Frame.BackgroundColor3 = Color
         Frame.Parent = GlobalFrame
-        delay(
+        task.delay(
             60,
             function()
                 Frame:Destroy()
@@ -1306,7 +1306,7 @@ ChatHUDFunc = function()
         Frame.User.TextColor3 = Color
         Frame.BackgroundColor3 = Color
         Frame.Parent = LocalFrame
-        delay(
+        task.delay(
             60,
             function()
                 Frame:Destroy()
@@ -1374,7 +1374,7 @@ ChatHUDFunc = function()
             end
         )
     end
-    wait(9e9)
+    task.wait(9e9)
 end
 ViewHUDFunc = function()
     --[[
@@ -1428,7 +1428,7 @@ ViewHUDFunc = function()
             end
             Character:WaitForChild("Head")
             Character:WaitForChild("Humanoid")
-            wait(3)
+            task.wait(3)
             local FakeChar = Clone(Character)
             local Root = FakeChar:FindFirstChild("HumanoidRootPart") or FakeChar:FindFirstChild("Head")
             local RenderConnection
@@ -1475,7 +1475,7 @@ ViewHUDFunc = function()
         end
         Player.CharacterAdded:Connect(CharacterAdded)
         if Player.Character then
-            spawn(
+            task.spawn(
                 function()
                     CharacterAdded(Player.Character)
                 end
@@ -1627,10 +1627,10 @@ ViewHUDFunc = function()
     
     --------------------------------------------------------------------
     
-    wait(9e9)
+    task.wait(9e9)
 end
 Script()
-wait(2)
+task.wait(2)
 local Players = game:GetService("Players")
 local lp = Players.LocalPlayer
 local character = reanimation--lp.Character
@@ -1665,9 +1665,9 @@ socket5.Parent = character["Head"]
 socket5.Attachment0 = A0H
 socket5.Attachment1 = A1H
 -----------------------------------------------------------
-wait(9e9)
+task.wait(9e9)
 coroutine.wrap(function()
-    while wait() do
+    while task.wait() do
         sethidden(Players.LocalPlayer, "SimulationRadius", math.huge)
         sethidden(Players.LocalPlayer, "MaximumSimulationRadius", math.huge)
     end

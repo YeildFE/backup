@@ -23,7 +23,8 @@ jobs:
 
       - name: Fetch API
         run: |
-          curl -s "http://setup.roblox.com/${VERSION}-API-Dump.json" -o rbx_api.dat
+          curl -sL --fail "https://setup.roblox.com/${VERSION}-API-Dump.json" -o rbx_api.dat
+          if [ ! -s rbx_api.dat ]; then echo "Empty or missing API file"; exit 1; fi
 
       - name: Commit
         run: |

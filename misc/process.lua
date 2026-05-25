@@ -1,5 +1,6 @@
-local setthreadidentity = setthreadidentity or (syn and syn.set_thread_identity) or syn_context_set or setthreadcontext
-local getgc = getgc or get_gc_objects
+local setthreadidentity = setthreadidentity or (syn and syn.set_thread_identity) or setthreadcontext
+if not setthreadidentity then error("process.lua: setthreadidentity unavailable on this executor") end
+local getgc = getgc or (get_gc_objects and get_gc_objects) or function() return {} end
 local hk = {}
 local dt = nil
 local kl = nil

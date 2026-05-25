@@ -1,6 +1,9 @@
--- https://raw.githubusercontent.com/Babyhamsta/RBLX_Scripts/main/Universal/Bypasses.lua
+-- Re-execution guard
+if getgenv().__bypasses_loaded then return end
+getgenv().__bypasses_loaded = true
 
--- Pretty much just a bunch of know detection bypasses. (Big thanks to Lego Hacker, Modulus, Bluwu, and I guess Iris or something)
+-- Original: https://raw.githubusercontent.com/Babyhamsta/RBLX_Scripts/main/Universal/Bypasses.lua
+-- Big thanks to Lego Hacker, Modulus, Bluwu, and Iris
 
 -- GCInfo/CollectGarbage Bypass (Realistic by Lego - Amazing work!)
 task.spawn(function()
@@ -67,7 +70,7 @@ task.spawn(function()
     local RandomTimeValue = math.random(RandomTime[1],RandomTime[2])/10000
 
     --I can make it 0.003 seconds faster, yea, sure
-    while wait(RandomTime) do
+    while task.wait(RandomTimeValue) do
         Amplitude = math.random(old1+RandomValue[1], old1+RandomValue[2])
         RandomTimeValue = math.random(RandomTime[1],RandomTime[2])/10000
     end

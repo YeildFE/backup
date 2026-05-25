@@ -1,6 +1,7 @@
 -- https://github.com/sajicooltoday/sajis-scripts
 local cloneref = cloneref or function(o) return o end
-local gethui = gethui or get_hidden_gui
+local gethui_ok, gethui_fn = pcall(function() return gethui end)
+local gethui = gethui_ok and gethui_fn or (pcall(get_hidden_gui) and get_hidden_gui) or function() return nil end
 
 -- author: saji
 -- https://discord.gg/5SszD6fWC8
@@ -75,6 +76,7 @@ local function build_gui()
 	return frame, scroll, status, gui
 end
 
+local guibro
 gui_frame, log_container, status_label, guibro = build_gui()
 
 local drag_toggle = false
@@ -108,6 +110,12 @@ uis.InputChanged:Connect(function(input)
 	end
 end)
 
+local list_layout = Instance.new("UIListLayout")
+list_layout.Parent = log_container
+list_layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+	log_container.CanvasSize = UDim2.new(0, max_line_width, 0, list_layout.AbsoluteContentSize.Y)
+end)
+
 local flush_connection
 flush_connection = run_service.Heartbeat:Connect(function()
 	if #log_queue == 0 then return end
@@ -116,11 +124,11 @@ flush_connection = run_service.Heartbeat:Connect(function()
 	log_queue = {}
 
 	for _, msg in ipairs(batch) do
-		local text_width = #msg * 7
+		local text_width = math.min(#msg * 7, 580)
 
 		local lbl = Instance.new("TextLabel")
 		lbl.BackgroundTransparency = 1
-		lbl.Position = UDim2.new(0, 0, 0, log_count * 20)
+		lbl.BorderSizePixel = 0
 		lbl.Size = UDim2.new(0, text_width, 0, 20)
 		lbl.Text = msg
 		lbl.TextColor3 = Color3.new(1, 1, 1)
@@ -133,8 +141,10 @@ flush_connection = run_service.Heartbeat:Connect(function()
 		end
 	end
 
-	log_container.CanvasSize = UDim2.new(0, max_line_width, 0, log_count * 20)
-	log_container.CanvasPosition = Vector2.new(log_container.CanvasPosition.X, log_count * 20)
+	log_container.CanvasSize = UDim2.new(0, max_line_width, 0, list_layout.AbsoluteContentSize.Y)
+	task.defer(function()
+		log_container.CanvasPosition = Vector2.new(log_container.CanvasPosition.X, list_layout.AbsoluteContentSize.Y)
+	end)
 end)
 
 local function log(msg: string)
@@ -343,8 +353,7 @@ local function scan_container(container: Instance)
 
 		local done = false
 		local ok, src
-
-		task.delay(10, function()
+		local timeout_tag = task.delay(10, function()
 			if not done then
 				log("❌ timed out: " .. full_name)
 				done = true
@@ -352,7 +361,9 @@ local function scan_container(container: Instance)
 		end)
 
 		ok, src = pcall(decompile, obj)
-		task.wait(scan_delay)
+		if not done then task.cancel(timeout_tag) end
+
+		if scan_delay > 0 then task.wait(scan_delay) end
 
 		if done then continue end
 		done = true

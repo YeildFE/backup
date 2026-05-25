@@ -46,10 +46,21 @@ local function LoadFromUrl(x)
 
 	return result()
 end
-local Implementations = LoadFromUrl("Implementations")
-local Reader = LoadFromUrl("Reader")
-local Strings = LoadFromUrl("Strings")
-local Luau = LoadFromUrl("Luau")
+-- Use cache to avoid re-downloading
+if getgenv().__ADV3_CACHE then
+    Implementations, Reader, Strings, Luau = getgenv().__ADV3_CACHE.Implementations, getgenv().__ADV3_CACHE.Reader, getgenv().__ADV3_CACHE.Strings, getgenv().__ADV3_CACHE.Luau
+else
+    local Implementations = LoadFromUrl("Implementations")
+    local Reader = LoadFromUrl("Reader")
+    local Strings = LoadFromUrl("Strings")
+    local Luau = LoadFromUrl("Luau")
+
+    if not Implementations or not Reader or not Strings or not Luau then
+        error("AdvancedDecompilerV3: One or more modules failed to load from GitHub. Check internet connection.")
+    end
+
+    getgenv().__ADV3_CACHE = { Implementations = Implementations, Reader = Reader, Strings = Strings, Luau = Luau }
+end
 
 local function LoadFlag(name)
 	local success, result = pcall(function()
@@ -60,9 +71,17 @@ local function LoadFlag(name)
 		return result
 	end
 
-	return true -- assume the test ended and it was successful
+	return true
 end
 local LuauCompileUserdataInfo = LoadFlag("LuauCompileUserdataInfo")
+
+-- Expose AdvancedDecompiler globally
+getgenv().AdvancedDecompiler = {
+    Decompile = Decompile,
+    LoadFromUrl = LoadFromUrl,
+    clearCache = function() getgenv().__ADV3_CACHE = nil end,
+    Version = "3.0"
+}
 
 local LuauOpCode = Luau.OpCode
 local LuauBytecodeTag = Luau.BytecodeTag

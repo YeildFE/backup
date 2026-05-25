@@ -1,6 +1,9 @@
 script = Instance.new("LocalScript")
 
-repeat wait()
+if getgenv().__wallwalker_loaded then return end
+getgenv().__wallwalker_loaded = true
+
+repeat task.wait()
 	a = pcall(function()
 		game:WaitForChild("Players").LocalPlayer:WaitForChild("PlayerScripts").ChildAdded:Connect(function(c)
 			if c.Name == "PlayerScriptsLoader"then
@@ -1004,17 +1007,17 @@ function _BaseCamera()
 			self:OnInputEnded(input, processed)
 		end)
 
-		self.menuOpenedConn = GuiService.MenuOpened:connect(function()
+		self.menuOpenedConn = GuiService.MenuOpened:Connect(function()
 			self:ResetInputStates()
 		end)
 
-		self.gamepadConnectedConn = UserInputService.GamepadDisconnected:connect(function(gamepadEnum)
+		self.gamepadConnectedConn = UserInputService.GamepadDisconnected:Connect(function(gamepadEnum)
 			if self.activeGamepad ~= gamepadEnum then return end
 			self.activeGamepad = nil
 			self:AssignActivateGamepad()
 		end)
 
-		self.gamepadDisconnectedConn = UserInputService.GamepadConnected:connect(function(gamepadEnum)
+		self.gamepadDisconnectedConn = UserInputService.GamepadConnected:Connect(function(gamepadEnum)
 			if self.activeGamepad == nil then
 				self:AssignActivateGamepad()
 			end
@@ -2779,7 +2782,7 @@ function _TransparencyController()
 				end)
 				if self.toolDescendantRemovingConns[object] then self.toolDescendantRemovingConns[object]:disconnect() end
 				self.toolDescendantRemovingConns[object] = object.DescendantRemoving:Connect(function(formerToolChild)
-					wait() -- wait for new parent
+					task.wait() -- wait for new parent
 					if character and formerToolChild and formerToolChild:IsDescendantOf(character) then
 						if self:IsValidPartToModify(formerToolChild) then
 							self.cachedParts[formerToolChild] = true
@@ -2790,7 +2793,7 @@ function _TransparencyController()
 			end
 		end)
 		if self.descendantRemovingConn then self.descendantRemovingConn:disconnect() end
-		self.descendantRemovingConn = character.DescendantRemoving:connect(function(object)
+		self.descendantRemovingConn = character.DescendantRemoving:Connect(function(object)
 			if self.cachedParts[object] then
 				self.cachedParts[object] = nil
 				-- Reset the transparency
@@ -5427,7 +5430,7 @@ function _ClickToMoveDisplay()
 	end
 
 	function FailureWaypoint:RunFailureTween()
-		wait(FAILURE_TWEEN_LENGTH) -- Delay one tween length betfore starting tweening
+		task.wait(FAILURE_TWEEN_LENGTH) -- Delay one tween length betfore starting tweening
 		-- Tween out from center
 		local tweenInfo = TweenInfo.new(FAILURE_TWEEN_LENGTH/2, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
 		local tweenLeft = TweenService:Create(self.DisplayModel.FailureWaypointBillboard, tweenInfo,
@@ -5438,7 +5441,7 @@ function _ClickToMoveDisplay()
 			{ Rotation = 10 })
 		tweenLeftRoation:Play()
 
-		tweenLeft.Completed:wait()
+		tweenLeft.Completed:Wait()
 
 		-- Tween back and forth
 		tweenInfo = TweenInfo.new(FAILURE_TWEEN_LENGTH, Enum.EasingStyle.Sine, Enum.EasingDirection.Out,
@@ -5458,7 +5461,7 @@ function _ClickToMoveDisplay()
 			{ Rotation = -10 })
 		tweenRotate:Play()
 
-		tweenSideToSide.Completed:wait()
+		tweenSideToSide.Completed:Wait()
 
 		-- Tween back to center
 		tweenInfo = TweenInfo.new(FAILURE_TWEEN_LENGTH/2, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
@@ -5470,9 +5473,9 @@ function _ClickToMoveDisplay()
 			{ Rotation = 0 })
 		tweenRoation:Play()
 
-		tweenCenter.Completed:wait()
+		tweenCenter.Completed:Wait()
 
-		wait(FAILURE_TWEEN_LENGTH) -- Delay one tween length betfore removing
+		task.wait(FAILURE_TWEEN_LENGTH) -- Delay one tween length betfore removing
 	end
 
 	function FailureWaypoint.new(position)
@@ -5965,7 +5968,7 @@ function _TouchJump()
 
 		self.humanoid = char:FindFirstChildOfClass("Humanoid")
 		while not self.humanoid do
-			char.ChildAdded:wait()
+			char.ChildAdded:Wait()
 			self.humanoid = char:FindFirstChildOfClass("Humanoid")
 		end
 
@@ -6036,7 +6039,7 @@ function _TouchJump()
 			UDim2.new(1, -(jumpButtonSize*1.5-10), 1, -jumpButtonSize * 1.75)
 
 		local touchObject = nil
-		self.jumpButton.InputBegan:connect(function(inputObject)
+		self.jumpButton.InputBegan:Connect(function(inputObject)
 			--A touch that starts elsewhere on the screen will be sent to a frame's InputBegan event
 			--if it moves over the frame. So we check that this is actually a new touch (inputObject.UserInputState ~= Enum.UserInputState.Begin)
 			if touchObject or inputObject.UserInputType ~= Enum.UserInputType.Touch
@@ -6055,13 +6058,13 @@ function _TouchJump()
 			self.jumpButton.ImageRectOffset = Vector2.new(1, 146)
 		end
 
-		self.jumpButton.InputEnded:connect(function(inputObject)
+		self.jumpButton.InputEnded:Connect(function(inputObject)
 			if inputObject == touchObject then
 				OnInputEnded()
 			end
 		end)
 
-		GuiService.MenuOpened:connect(function()
+		GuiService.MenuOpened:Connect(function()
 			if touchObject then
 				OnInputEnded()
 			end
@@ -6555,7 +6558,7 @@ function _ClickToMoveController()
 							-- Give time to the humanoid's state to change
 							-- Otherwise, the jump flag in Humanoid
 							-- will be reset by the state change
-							wait(0.1)
+							task.wait(0.1)
 						end
 					end
 
@@ -7861,13 +7864,13 @@ function _DynamicThumbstick()
 			end
 		end)
 
-		self.onTouchEndedConn = UserInputService.TouchEnded:connect(function(inputObject)
+		self.onTouchEndedConn = UserInputService.TouchEnded:Connect(function(inputObject)
 			if inputObject == self.moveTouchObject then
 				self:OnInputEnded()
 			end
 		end)
 
-		GuiService.MenuOpened:connect(function()
+		GuiService.MenuOpened:Connect(function()
 			if self.moveTouchObject then
 				self:OnInputEnded()
 			end
@@ -7875,7 +7878,7 @@ function _DynamicThumbstick()
 
 		local playerGui = LocalPlayer:FindFirstChildOfClass("PlayerGui")
 		while not playerGui do
-			LocalPlayer.ChildAdded:wait()
+			LocalPlayer.ChildAdded:Wait()
 			playerGui = LocalPlayer:FindFirstChildOfClass("PlayerGui")
 		end
 
@@ -8659,7 +8662,7 @@ function _ControlModule()
 	function ControlModule:OnCharacterAdded(char)
 		self.humanoid = char:FindFirstChildOfClass("Humanoid")
 		while not self.humanoid do
-			char.ChildAdded:wait()
+			char.ChildAdded:Wait()
 			self.humanoid = char:FindFirstChildOfClass("Humanoid")
 		end
 
@@ -8737,7 +8740,7 @@ function _ControlModule()
 			local touchModule, success = self:SelectTouchModule()
 			if success then
 				while not self.touchControlFrame do
-					wait()
+					task.wait()
 				end
 				self:SwitchToController(touchModule)
 			end
@@ -8762,7 +8765,7 @@ function _ControlModule()
 		local touchModule, success = self:SelectTouchModule()
 		if success then
 			while not self.touchControlFrame do
-				wait()
+				task.wait()
 			end
 			self:SwitchToController(touchModule)
 		end
@@ -9389,12 +9392,12 @@ function _R6()
 			local config = script:FindFirstChild(name)
 			if (config ~= nil) then
 				--		print("Loading anims " .. name)
-				table.insert(animTable[name].connections, config.ChildAdded:connect(function(child) configureAnimationSet(name, fileList) end))
-				table.insert(animTable[name].connections, config.ChildRemoved:connect(function(child) configureAnimationSet(name, fileList) end))
+				table.insert(animTable[name].connections, config.ChildAdded:Connect(function(child) configureAnimationSet(name, fileList) end))
+				table.insert(animTable[name].connections, config.ChildRemoved:Connect(function(child) configureAnimationSet(name, fileList) end))
 				local idx = 1
 				for _, childPart in pairs(config:GetChildren()) do
 					if (childPart:IsA("Animation")) then
-						table.insert(animTable[name].connections, childPart.Changed:connect(function(property) configureAnimationSet(name, fileList) end))
+						table.insert(animTable[name].connections, childPart.Changed:Connect(function(property) configureAnimationSet(name, fileList) end))
 						animTable[name][idx] = {}
 						animTable[name][idx].anim = childPart
 						local weightObject = childPart:FindFirstChild("Weight")
@@ -9432,8 +9435,8 @@ function _R6()
 			end	
 		end
 
-		script.ChildAdded:connect(scriptChildModified)
-		script.ChildRemoved:connect(scriptChildModified)
+		script.ChildAdded:Connect(scriptChildModified)
+		script.ChildRemoved:Connect(scriptChildModified)
 
 
 		for name, fileList in pairs(animNames) do 
@@ -9535,7 +9538,7 @@ function _R6()
 				if (currentAnimKeyframeHandler ~= nil) then
 					currentAnimKeyframeHandler:disconnect()
 				end
-				currentAnimKeyframeHandler = currentAnimTrack.KeyframeReached:connect(keyFrameReachedFunc)
+				currentAnimKeyframeHandler = currentAnimTrack.KeyframeReached:Connect(keyFrameReachedFunc)
 
 			end
 
@@ -9588,7 +9591,7 @@ function _R6()
 				toolAnimName = animName
 				toolAnimInstance = anim
 
-				currentToolAnimKeyframeHandler = toolAnimTrack.KeyframeReached:connect(toolKeyFrameReachedFunc)
+				currentToolAnimKeyframeHandler = toolAnimTrack.KeyframeReached:Connect(toolKeyFrameReachedFunc)
 			end
 		end
 
@@ -9803,16 +9806,16 @@ function _R6()
 			pose = eventHum.Sit and "Seated" or "Standing"
 
 			events = {
-				eventHum.Died:connect(onDied),
-				eventHum.Running:connect(onRunning),
-				eventHum.Jumping:connect(onJumping),
-				eventHum.Climbing:connect(onClimbing),
-				eventHum.GettingUp:connect(onGettingUp),
-				eventHum.FreeFalling:connect(onFreeFall),
-				eventHum.FallingDown:connect(onFallingDown),
-				eventHum.Seated:connect(onSeated),
-				eventHum.PlatformStanding:connect(onPlatformStanding),
-				eventHum.Swimming:connect(onSwimming)
+				eventHum.Died:Connect(onDied),
+				eventHum.Running:Connect(onRunning),
+				eventHum.Jumping:Connect(onJumping),
+				eventHum.Climbing:Connect(onClimbing),
+				eventHum.GettingUp:Connect(onGettingUp),
+				eventHum.FreeFalling:Connect(onFreeFall),
+				eventHum.FallingDown:Connect(onFallingDown),
+				eventHum.Seated:Connect(onSeated),
+				eventHum.PlatformStanding:Connect(onPlatformStanding),
+				eventHum.Swimming:Connect(onSwimming)
 			}
 		end
 
@@ -9820,7 +9823,7 @@ function _R6()
 		onHook()
 
 		-- setup emote chat hook
-		game:GetService("Players").LocalPlayer.Chatted:connect(function(msg)
+		game:GetService("Players").LocalPlayer.Chatted:Connect(function(msg)
 			local emote = ""
 			if msg == "/e dance" then
 				emote = dances[math.random(1, #dances)]
@@ -9843,9 +9846,9 @@ function _R6()
 		playAnimation("idle", 0.1, Humanoid)
 		pose = "Standing"
 
-		spawn(function()
+		task.spawn(function()
 			while Figure.Parent ~= nil do
-				local _, time = wait(0.1)
+				local _, time = task.wait(0.1)
 				move(time)
 			end
 		end)
@@ -10017,8 +10020,8 @@ function _R15()
 			-- check for config values
 			local config = script:FindFirstChild(name)
 			if (allowCustomAnimations and config ~= nil) then
-				table.insert(animTable[name].connections, config.ChildAdded:connect(function(child) configureAnimationSet(name, fileList) end))
-				table.insert(animTable[name].connections, config.ChildRemoved:connect(function(child) configureAnimationSet(name, fileList) end))
+				table.insert(animTable[name].connections, config.ChildAdded:Connect(function(child) configureAnimationSet(name, fileList) end))
+				table.insert(animTable[name].connections, config.ChildRemoved:Connect(function(child) configureAnimationSet(name, fileList) end))
 
 				local idx = 0
 				for _, childPart in pairs(config:GetChildren()) do
@@ -10034,9 +10037,9 @@ function _R15()
 						animTable[name][idx].anim = childPart
 						animTable[name][idx].weight = newWeight
 						animTable[name].totalWeight = animTable[name].totalWeight + animTable[name][idx].weight
-						table.insert(animTable[name].connections, childPart.Changed:connect(function(property) configureAnimationSet(name, fileList) end))
-						table.insert(animTable[name].connections, childPart.ChildAdded:connect(function(property) configureAnimationSet(name, fileList) end))
-						table.insert(animTable[name].connections, childPart.ChildRemoved:connect(function(property) configureAnimationSet(name, fileList) end))
+						table.insert(animTable[name].connections, childPart.Changed:Connect(function(property) configureAnimationSet(name, fileList) end))
+						table.insert(animTable[name].connections, childPart.ChildAdded:Connect(function(property) configureAnimationSet(name, fileList) end))
+						table.insert(animTable[name].connections, childPart.ChildRemoved:Connect(function(property) configureAnimationSet(name, fileList) end))
 					end
 				end
 			end
@@ -10090,12 +10093,12 @@ function _R15()
 			-- check for config values
 			local config = script:FindFirstChild(name)
 			if (allowCustomAnimations and config ~= nil) then
-				table.insert(animTable[name].connections, config.ChildAdded:connect(function(child) configureAnimationSet(name, fileList) end))
-				table.insert(animTable[name].connections, config.ChildRemoved:connect(function(child) configureAnimationSet(name, fileList) end))
+				table.insert(animTable[name].connections, config.ChildAdded:Connect(function(child) configureAnimationSet(name, fileList) end))
+				table.insert(animTable[name].connections, config.ChildRemoved:Connect(function(child) configureAnimationSet(name, fileList) end))
 				local idx = 1
 				for _, childPart in pairs(config:GetChildren()) do
 					if (childPart:IsA("Animation")) then
-						table.insert(animTable[name].connections, childPart.Changed:connect(function(property) configureAnimationSet(name, fileList) end))
+						table.insert(animTable[name].connections, childPart.Changed:Connect(function(property) configureAnimationSet(name, fileList) end))
 						animTable[name][idx] = {}
 						animTable[name][idx].anim = childPart
 						local weightObject = childPart:FindFirstChild("Weight")
@@ -10143,8 +10146,8 @@ function _R15()
 			end	
 		end
 
-		script.ChildAdded:connect(scriptChildModified)
-		script.ChildRemoved:connect(scriptChildModified)
+		script.ChildAdded:Connect(scriptChildModified)
+		script.ChildRemoved:Connect(scriptChildModified)
 
 
 		for name, fileList in pairs(animNames) do 
@@ -10342,7 +10345,7 @@ function _R15()
 				if (currentAnimKeyframeHandler ~= nil) then
 					currentAnimKeyframeHandler:disconnect()
 				end
-				currentAnimKeyframeHandler = currentAnimTrack.KeyframeReached:connect(keyFrameReachedFunc)
+				currentAnimKeyframeHandler = currentAnimTrack.KeyframeReached:Connect(keyFrameReachedFunc)
 
 				-- check to see if we need to blend a walk/run animation
 				if animName == "walk" then
@@ -10356,7 +10359,7 @@ function _R15()
 					if (runAnimKeyframeHandler ~= nil) then
 						runAnimKeyframeHandler:disconnect()
 					end
-					runAnimKeyframeHandler = runAnimTrack.KeyframeReached:connect(keyFrameReachedFunc)	
+					runAnimKeyframeHandler = runAnimTrack.KeyframeReached:Connect(keyFrameReachedFunc)	
 				end
 			end
 		end
@@ -10412,7 +10415,7 @@ function _R15()
 				toolAnimName = animName
 				toolAnimInstance = anim
 
-				currentToolAnimKeyframeHandler = toolAnimTrack.KeyframeReached:connect(toolKeyFrameReachedFunc)
+				currentToolAnimKeyframeHandler = toolAnimTrack.KeyframeReached:Connect(toolKeyFrameReachedFunc)
 			end
 		end
 
@@ -10606,16 +10609,16 @@ function _R15()
 			pose = eventHum.Sit and "Seated" or "Standing"
 
 			events = {
-				eventHum.Died:connect(onDied),
-				eventHum.Running:connect(onRunning),
-				eventHum.Jumping:connect(onJumping),
-				eventHum.Climbing:connect(onClimbing),
-				eventHum.GettingUp:connect(onGettingUp),
-				eventHum.FreeFalling:connect(onFreeFall),
-				eventHum.FallingDown:connect(onFallingDown),
-				eventHum.Seated:connect(onSeated),
-				eventHum.PlatformStanding:connect(onPlatformStanding),
-				eventHum.Swimming:connect(onSwimming)
+				eventHum.Died:Connect(onDied),
+				eventHum.Running:Connect(onRunning),
+				eventHum.Jumping:Connect(onJumping),
+				eventHum.Climbing:Connect(onClimbing),
+				eventHum.GettingUp:Connect(onGettingUp),
+				eventHum.FreeFalling:Connect(onFreeFall),
+				eventHum.FallingDown:Connect(onFallingDown),
+				eventHum.Seated:Connect(onSeated),
+				eventHum.PlatformStanding:Connect(onPlatformStanding),
+				eventHum.Swimming:Connect(onSwimming)
 			}
 		end
 
@@ -10623,7 +10626,7 @@ function _R15()
 		onHook()
 
 		-- setup emote chat hook
-		game:GetService("Players").LocalPlayer.Chatted:connect(function(msg)
+		game:GetService("Players").LocalPlayer.Chatted:Connect(function(msg)
 			local emote = ""
 			if (string.sub(msg, 1, 3) == "/e ") then
 				emote = string.sub(msg, 4)
@@ -10661,9 +10664,9 @@ function _R15()
 		playAnimation("idle", 0.1, Humanoid)
 		pose = "Standing"
 		-- loop to handle timed state transitions and tool animations
-		spawn(function()
+		task.spawn(function()
 			while Character.Parent ~= nil do
-				local _, currentGameTime = wait(0.1)
+				local _, currentGameTime = task.wait(0.1)
 				stepAnimate(currentGameTime)
 			end
 		end)
@@ -10684,7 +10687,7 @@ function _R15()
 	return r15()
 end
 while true do
-	wait(.1)
+	task.wait(.1)
 	if plr.Character ~= nil then
 		char = plr.Character
 		break

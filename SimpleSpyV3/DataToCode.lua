@@ -16,8 +16,11 @@
 local assert, type, typeof, rawset, getmetatable, tostring = assert, type, typeof, rawset, getmetatable, tostring
 local print, warn, pack, unpack, next = print, warn, table.pack, unpack, next
 
-local IsSharedFrozen, SharedSize = SharedTable.isFrozen, SharedTable.size
-local bufftostring, fromstring, readu8 = buffer.tostring, buffer.fromstring, buffer.readu8
+local IsSharedFrozen = SharedTable and SharedTable.isFrozen or function() return true end
+local SharedSize = SharedTable and SharedTable.size or function() return 0 end
+local bufftostring = buffer and buffer.tostring or function(b) return "" end
+local fromstring = buffer and buffer.fromstring or function(s) return buffer.create(#s) end
+local readu8 = buffer and buffer.readu8 or function(b, o) return 0 end
 local isfrozen, concat = table.isfrozen, table.concat
 
 local FindService = game.FindService

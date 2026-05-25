@@ -9,15 +9,16 @@ local pairs = pairs
 local os_time = os.time
 local DEBUG = false
 
-if syn then require = getrenv().require end
+local renv_require
+if syn then renv_require = getrenv().require end
 
 local AnalyticsCategory_Game = "Game"
 local AnalyticsAction_InitialOpenTab = "DeveloperConsole_InitialOpenTab"
 local AnalyticsAction_ClickToOpenOpenTab = "DeveloperConsole_ClickToOpenOpenTab"
 
 local CoreGui = game:GetService("CoreGui")
-local RobloxGui = CoreGui:FindFirstChild("RobloxGui")
-local Modules = RobloxGui:FindFirstChild("Modules")
+local RobloxGui = CoreGui:FindFirstChild("RobloxGui") or CoreGui:WaitForChild("RobloxGui")
+local Modules = RobloxGui:FindFirstChild("Modules") or RobloxGui:WaitForChild("Modules")
 
 local ContextActionService = game:GetService("ContextActionService")
 local TextService = game:GetService("TextService")
@@ -25,9 +26,10 @@ local GuiService = game:GetService("GuiService")
 local VRService = game:GetService("VRService")
 local isTenFootInterface = GuiService:IsTenFootInterface()
 
-local ClientMemoryAnalyzerClass = require(CoreGui:WaitForChild("RobloxGui"):WaitForChild("Modules"):WaitForChild("Stats"):WaitForChild("ClientMemoryAnalyzer"))
-local ServerMemoryAnalyzerClass = require(CoreGui:WaitForChild("RobloxGui"):WaitForChild("Modules"):WaitForChild("Stats"):WaitForChild("ServerMemoryAnalyzer"))
-local StatsUtils = require(CoreGui:WaitForChild("RobloxGui"):WaitForChild("Modules"):WaitForChild("Stats"):WaitForChild("StatsUtils"))
+local _require = renv_require or require
+local ClientMemoryAnalyzerClass = _require(CoreGui:WaitForChild("RobloxGui"):WaitForChild("Modules"):WaitForChild("Stats"):WaitForChild("ClientMemoryAnalyzer"))
+local ServerMemoryAnalyzerClass = _require(CoreGui:WaitForChild("RobloxGui"):WaitForChild("Modules"):WaitForChild("Stats"):WaitForChild("ServerMemoryAnalyzer"))
+local StatsUtils = _require(CoreGui:WaitForChild("RobloxGui"):WaitForChild("Modules"):WaitForChild("Stats"):WaitForChild("StatsUtils"))
 
 local Style; do
 	local c3 = Color3.fromRGB;
@@ -53,8 +55,8 @@ local Style; do
 	
 	Style = {
 		ZINDEX = 6;
-		Font = Enum.Font.SourceSans;
-		FontBold = Enum.Font.SourceSansBold;
+		Font = Enum.Font.BuilderSans;
+		FontBold = Enum.Font.BuilderSansBold;
 		
 		HandleHeight = 24; -- How tall the top window handle is, as well as the width of the scroll bar
 		TabHeight = 28;
@@ -222,7 +224,7 @@ local function CreateSignal()
 	local mAllCns = {} --all connection objects returned by mBindableEvent::connect
 
 	--main functions
-	function this:connect(func)
+	function this:Connect(func)
 		if self ~= this then error("connect must be called with `:`, not `.`", 2) end
 		if type(func) ~= 'function' then
 			error("Argument #1 of connect must be a function, got a "..type(func), 2)
@@ -257,7 +259,7 @@ local function CreateSignal()
 		mBindableEvent:Fire(...)
 	end
 	
-	this.Connect = this.connect
+	this.Connect = this.Connect
 	this.Disconnect = this.disconnect
 	this.Wait = this.wait
 	this.Fire = this.fire
@@ -288,7 +290,7 @@ local CreateDisconnectSignal; do
 		end
 
 		local listener;
-		listener = this.Signal:connect(function(...)
+		listener = this.Signal:Connect(function(...)
 			if listener then
 				listener:disconnect()
 				listener = nil
@@ -320,14 +322,14 @@ local Metatable = {__index = Methods}
 function Methods.ConnectSetVisible(devConsole, func)
 	-- This is used mainly for pausing rendering and stuff when the console isn't visible
 	func(devConsole.Visible)
-	return devConsole.VisibleChanged:connect(function(visible)
+	return devConsole.VisibleChanged:Connect(function(visible)
 		func(visible)
 	end)
 end
 function Methods.ConnectObjectSetVisible(devConsole, object, func)
 	-- Same as above, but used for calling methods like object:SetVisible()
 	func(object, devConsole.Visible)
-	return devConsole.VisibleChanged:connect(function(visible)
+	return devConsole.VisibleChanged:Connect(function(visible)
 		func(object, visible)
 	end)
 end
@@ -337,7 +339,7 @@ end
 -----------------------------
 
 local function connectPropertyChanged(object, property, callback)
-	return object.Changed:connect(function(propertyChanged)
+	return object.Changed:Connect(function(propertyChanged)
 		if propertyChanged == property then
 			callback(object[property])
 		end
@@ -429,7 +431,7 @@ function DeveloperConsole.new(screenGui, permissions, messagesAndStats)
 		frame.Modal = VRService.VREnabled
 	end
 	onVREnabled()
-	VRService:GetPropertyChangedSignal("VREnabled"):connect(onVREnabled)
+	VRService:GetPropertyChangedSignal("VREnabled"):Connect(onVREnabled)
 
 	devConsole.Frame = frame
 	devConsole:ResetFrameDimensions()
@@ -488,7 +490,7 @@ function DeveloperConsole.new(screenGui, permissions, messagesAndStats)
 			buttonEffectFunction(clicking, hovering)
 		end)
 		
-		exitButton.MouseButton1Click:connect(function()
+		exitButton.MouseButton1Click:Connect(function()
 			devConsole:SetVisible(false, true)
 		end)
 	end
@@ -589,7 +591,7 @@ function DeveloperConsole.new(screenGui, permissions, messagesAndStats)
 		--gear.ZIndex = ZINDEX + 1
 		local animationToggle = devConsole:GenerateOptionButtonAnimationToggle(interiorFrame, optionsButton, gear, tabContainer, optionsClippingFrame, optionsFrame)
 		local open = false
-		optionsButton.MouseButton1Click:connect(function()
+		optionsButton.MouseButton1Click:Connect(function()
 			open = not open
 			animationToggle(open)
 		end)
@@ -657,7 +659,7 @@ function DeveloperConsole.new(screenGui, permissions, messagesAndStats)
 				callback(value)
 			end
 			
-			button.MouseButton1Click:connect(function()
+			button.MouseButton1Click:Connect(function()
 				this:SetValue(not this.Value)
 			end)
 			
@@ -877,7 +879,7 @@ function DeveloperConsole.new(screenGui, permissions, messagesAndStats)
                 Style.BorderSize, 
                 1, 
                 -(Style.CommandLineHeight + Style.BorderSize))
-							commandLine.CommandInputted:connect(commandInputtedCallback)
+							commandLine.CommandInputted:Connect(commandInputtedCallback)
 						end
 					end
 
@@ -891,19 +893,19 @@ function DeveloperConsole.new(screenGui, permissions, messagesAndStats)
 					local height = output:RefreshMessages()
 					body.Size = UDim2_new(1, 0, 0, height)
 					
-					disconnector:connect(output.HeightChanged:connect(function(height)
+					disconnector:Connect(output.HeightChanged:Connect(function(height)
 						body.Size = UDim2_new(1, 0, 0, height)
 					end))
 					body.Size = UDim2_new(1, 0, 0, output.Height)
 					
-					disconnector:connect(outputMessageSync.MessageAdded:connect(function(message)
+					disconnector:Connect(outputMessageSync.MessageAdded:Connect(function(message)
 						output:RefreshMessages(#messages)
 					end))
 					
-					disconnector:connect(messageFilterChanged:connect(function()
+					disconnector:Connect(messageFilterChanged:Connect(function()
 						output:RefreshMessages()
 					end))
-					disconnector:connect(messageTextWrappedChanged:connect(function(enabled)
+					disconnector:Connect(messageTextWrappedChanged:Connect(function(enabled)
 						output:SetTextWrappedEnabled(enabled)
 					end))
 				else
@@ -978,7 +980,7 @@ do -- This doesn't support multiple windows very well
 			disconnector:fire()
 			if enabled then
 				label.Position = UDim2.new(0, mouse.X - 32, 0, mouse.Y - 32)
-				disconnector:connect(UserInputService.InputChanged:connect(function(input)
+				disconnector:Connect(UserInputService.InputChanged:Connect(function(input)
 					if input.UserInputType == Enum.UserInputType.MouseMovement then
 						--local p = input.Position
 						--if p then
@@ -991,13 +993,13 @@ do -- This doesn't support multiple windows very well
 		
 		Refresh()
 		local userInputServiceListener;
-		devConsole.VisibleChanged:connect(function(visible)
+		devConsole.VisibleChanged:Connect(function(visible)
 			if userInputServiceListener then
 				userInputServiceListener:disconnect()
 				userInputServiceListener = nil
 			end
 			
-			userInputServiceListener = UserInputService.Changed:connect(Refresh)
+			userInputServiceListener = UserInputService.Changed:Connect(Refresh)
 			
 			Refresh()
 		end)
@@ -1061,7 +1063,7 @@ do
 			local defaultSize = UDim2_new(1, 0, 0, Style.CommandLineHeight)
 			local first = true
 			
-			textBox.Changed:connect(function(property)
+			textBox.Changed:Connect(function(property)
 				if property == 'TextBounds' or property == 'AbsoluteSize' then
 					if first then -- There's a glitch that only occurs on the first change
 						first = false
@@ -1116,13 +1118,13 @@ do
 		
 		local focusLostWithoutEnter = false
 		
-		textBox.Focused:connect(function()
+		textBox.Focused:Connect(function()
 			if textBox.Text == DEFAULT_COMMAND_BAR_TEXT then
 				textBox.Text = ""
 			end
 			disconnector:fire()
 			backtrackPosition = 0
-			disconnector:connect(UserInputService.InputBegan:connect(function(input)
+			disconnector:Connect(UserInputService.InputBegan:Connect(function(input)
 				if input.KeyCode == Enum.KeyCode.Up then
 					if backtrackPosition == 0 and not focusLostWithoutEnter then
 						-- They typed something, then pressed up. They might want what they typed back, so we store it
@@ -1137,7 +1139,7 @@ do
 			end))
 		end)
 		
-		textBox.FocusLost:connect(function(enterPressed)
+		textBox.FocusLost:Connect(function(enterPressed)
 			disconnector:fire()
 			if enterPressed then
 				focusLostWithoutEnter = false
@@ -1323,7 +1325,7 @@ do
 			if not refreshHandle then
 				refreshHandle = true
 				coroutine.wrap(function() -- Not ideal
-					wait()
+					task.wait()
 					refreshHandle = false
 					RefreshMessagesForReal()
 				end)()
@@ -1402,7 +1404,7 @@ function Methods.AddTab(devConsole, text, body, openCallback, visibleCallback)
 		Body = body;
 	}
 
-	local nominalSize = TextService:GetTextSize(text, TAB_TEXT_SIZE, Enum.Font.SourceSans, Vector2.new(1e3, 1e3))
+	local nominalSize = TextService:GetTextSize(text, TAB_TEXT_SIZE, Enum.Font.BuilderSans, Vector2.new(1e3, 1e3))
 	local width = nominalSize.x + (TAB_TEXT_PADDING * 2)
 	
 	local buttonFrame = Primitives.InvisibleButton(devConsole.Frame.Interior.Tabs, 'Tab_' .. text)
@@ -1493,7 +1495,7 @@ function Methods.AddTab(devConsole, text, body, openCallback, visibleCallback)
 		
 	end
 	
-	buttonFrame.MouseButton1Click:connect(function()
+	buttonFrame.MouseButton1Click:Connect(function()
 			if tab.Visible then
 				tab:RecordClickToOpen()
 				tab:SetOpen(true)
@@ -1553,17 +1555,17 @@ function Methods.ApplyScrollbarToFrame(devConsole,
 		local y = body.Position.Y
 		body.Position = UDim2_new(x.Scale, x.Offset, y.Scale, -math.floor(yOffset))
 	end
-	scrollbar.ValueChanged:connect(setValue)
+	scrollbar.ValueChanged:Connect(setValue)
 	setValue(scrollbar:GetValue())
 
 	local scrollDistance = 120
 	
 	window.Active = true
 
-	scrollbar.ButtonUp.MouseButton1Click:connect(function()
+	scrollbar.ButtonUp.MouseButton1Click:Connect(function()
 		scrollbar:Scroll(-scrollDistance, getHeights())
 	end)
-	scrollbar.ButtonDown.MouseButton1Click:connect(function()
+	scrollbar.ButtonDown.MouseButton1Click:Connect(function()
 		scrollbar:Scroll(scrollDistance, getHeights())
 	end)
 
@@ -1578,13 +1580,13 @@ function Methods.ApplyScrollbarToFrame(devConsole,
 		refreshDimension()
 	end)
 
-	window.MouseWheelForward:connect(function()
+	window.MouseWheelForward:Connect(function()
 		scrollbar:Scroll(-scrollDistance, getHeights())
 	end)
-	window.MouseWheelBackward:connect(function()
+	window.MouseWheelBackward:Connect(function()
 		scrollbar:Scroll(scrollDistance, getHeights())
 	end)
-	window.TouchPan:connect(function(positions, delta, velocity, userInputState)
+	window.TouchPan:Connect(function(positions, delta, velocity, userInputState)
 		scrollbar:Scroll(-delta.y, getHeights())
 	end)
 end
@@ -1723,8 +1725,8 @@ local RenderLerpAnimation; do
 	local math_pi = math.pi
 	function RenderLerpAnimation(disconnectSignal, length, callback)
 		disconnectSignal:fire()
-		local timeStamp = tick()
-		local listener = RunService.RenderStepped:connect(function()
+		local timeStamp = os.clock()
+		local listener = RunService.RenderStepped:Connect(function()
 			local t = (tick() - timeStamp) / length
 			if t >= 1 then
 				t = 1
@@ -1734,7 +1736,7 @@ local RenderLerpAnimation; do
 			end
 			callback(t)
 		end)
-		disconnectSignal:connect(listener)
+		disconnectSignal:Connect(listener)
 		return listener
 	end
 end
@@ -1844,25 +1846,25 @@ do
 			end
 		end
 		
-		button.MouseButton1Down:connect(function()
+		button.MouseButton1Down:Connect(function()
 			set(true, true)
 		end)
-		button.MouseButton1Up:connect(function()
+		button.MouseButton1Up:Connect(function()
 			set(false, true)
 		end)
-		button.MouseEnter:connect(function()
+		button.MouseEnter:Connect(function()
 			set(clicking, true)
 		end)
-		button.MouseLeave:connect(function()
+		button.MouseLeave:Connect(function()
 			set(false, false)
 		end)
 		--[[ these might cause memory leakes (when creating temporary buttons)
 		-- This solves the case in which the user presses F9 while hovering over a button
-		devConsole.VisibleChanged:connect(function()
+		devConsole.VisibleChanged:Connect(function()
 			set(false, false)
 		end)
 		
-		globalInteractEvent:connect(function()
+		globalInteractEvent:Connect(function()
 			set(false, false)
 		end)
 		--]]
@@ -1914,7 +1916,7 @@ function Methods.ConnectButtonDragging(devConsole, button, dragCallback, mouseIn
 		
 		local x0, y0 = startP.X, startP.Y
 		--[[
-		listeners[#listeners + 1] = UserInputService.InputBegan:connect(function(input)
+		listeners[#listeners + 1] = UserInputService.InputBegan:Connect(function(input)
 			if ButtonUserInputTypes[input.UserInputType] then
 				local position = input.Position
 				if position and not x0 then
@@ -1923,12 +1925,12 @@ function Methods.ConnectButtonDragging(devConsole, button, dragCallback, mouseIn
 			end
 		end)
 		--]]
-		listeners[#listeners + 1] = UserInputService.InputEnded:connect(function(input)
+		listeners[#listeners + 1] = UserInputService.InputEnded:Connect(function(input)
 			if ButtonUserInputTypes[input.UserInputType] then
 				stopDragging()
 			end
 		end)
-		listeners[#listeners + 1] = UserInputService.InputChanged:connect(function(input)
+		listeners[#listeners + 1] = UserInputService.InputChanged:Connect(function(input)
 		
 			if not (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch)then -- added in a touch check
 				return
@@ -1949,35 +1951,35 @@ function Methods.ConnectButtonDragging(devConsole, button, dragCallback, mouseIn
 		end)
 	end
 	
-	--button.MouseButton1Down:connect(startDragging)
-	--button.MouseButton1Up:connect(stopDragging)
+	--button.MouseButton1Down:Connect(startDragging)
+	--button.MouseButton1Up:Connect(stopDragging)
 	
-	button.InputBegan:connect(function(iobj)
+	button.InputBegan:Connect(function(iobj)
 		if iobj.UserInputType == Enum.UserInputType.Touch or iobj.UserInputType == Enum.UserInputType.MouseButton1 then
 			startDragging(iobj.Position)
 		end
 	end)
 	
-	button.InputEnded:connect(function(iobj)
+	button.InputEnded:Connect(function(iobj)
 		if iobj.UserInputType == Enum.UserInputType.Touch or iobj.UserInputType == Enum.UserInputType.MouseButton1 then
 			stopDragging()
 		end
 	end)	
 	
-	button.MouseEnter:connect(function()
+	button.MouseEnter:Connect(function()
 		if not hovering then
 			hovering = true
 			mouseInteractCallback(dragging, hovering)
 		end
 	end)
-	button.MouseLeave:connect(function()
+	button.MouseLeave:Connect(function()
 		if hovering then
 			hovering = false
 			mouseInteractCallback(dragging, hovering)
 		end
 	end)
 	
-	devConsole.VisibleChanged:connect(stopDragging)
+	devConsole.VisibleChanged:Connect(stopDragging)
 end
 
 -----------------
@@ -1986,7 +1988,7 @@ end
 do
 	local permissionsLoading, permissions = false;
 	function DeveloperConsole.GetPermissions()
-		while permissionsLoading do wait() end
+		while permissionsLoading do task.wait() end
 		
 		if permissions then
 			return permissions
@@ -2146,7 +2148,7 @@ do
 					end
 				end
 				
-				LogService.MessageOut:connect(function(text, messageType)
+				LogService.MessageOut:Connect(function(text, messageType)
 					local message = {
 						Message = text or "[DevConsole Error 2]";
 						Time = ConvertTimeStamp(os_time());
@@ -2169,7 +2171,7 @@ do
 				
 				local LogService = game:GetService("LogService")
 				
-				LogService.ServerMessageOut:connect(function(text, messageType, timestamp)
+				LogService.ServerMessageOut:Connect(function(text, messageType, timestamp)
 					local message = {
 						Message = text or "[DevConsole Error 3]";
 						Time = ConvertTimeStamp(timestamp);
@@ -2203,7 +2205,7 @@ do
 					pcall(function()
 						local clientReplicator = game:FindService("NetworkClient"):GetChildren()[1]
 							if clientReplicator then
-							statsListenerConnection = clientReplicator.StatsReceived:connect(function(stat)
+							statsListenerConnection = clientReplicator.StatsReceived:Connect(function(stat)
 								statsSyncServer.StatsReceived:fire(stat)
 							end)
 							clientReplicator:RequestServerStats(true)
@@ -2274,7 +2276,7 @@ local function getDeveloperConsole()
 		myDeveloperConsole = DeveloperConsole.new(RobloxGui, permissions, messagesAndStats)
 
 		if isTenFootInterface then
-			myDeveloperConsole.VisibleChanged:connect(onDevConsoleVisibilityChanged)
+			myDeveloperConsole.VisibleChanged:Connect(onDevConsoleVisibilityChanged)
 		end
 		devConsoleCreating = false
 	end
@@ -2305,7 +2307,7 @@ local function SetCoreConsoleCreation()
 	if (creatingLock) then return end
 	creatingLock = true
 
-	spawn(function()
+	task.spawn(function()
 		--// Keep GetVisibility call before SetVisibility because the first call will yield for some time and 
 		--// there is the possibility that during the yield time the value of 'creatingVisibleValueToSet' may
 		--// change.
@@ -2343,7 +2345,7 @@ end
 local InputService  = game:GetService'UserInputService'
 local StarterGui    = game:GetService'StarterGui'
 
-InputService.InputBegan:connect(function(a)
+InputService.InputBegan:Connect(function(a)
    if a.UserInputType == Enum.UserInputType.Keyboard and a.KeyCode == Enum.KeyCode.F9 then
        local b = GetDeveloperConsoleVisible();
        StarterGui:SetCore('DevConsoleVisible', false)

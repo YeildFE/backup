@@ -31,7 +31,16 @@ local Click = Instance.new("TextButton")
 local ImageButton = Instance.new("ImageButton")
 
 AL.Name = "AL"
-AL.Parent = game.CoreGui
+local function get_hui()
+	local ok, h = pcall(gethui)
+	if ok and h then return h end
+	local ok2, h2 = pcall(function() return cloneref(game:GetService("CoreGui")) end)
+	if ok2 and h2 then return h2 end
+	local ok3, h3 = pcall(cloneref, game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"))
+	if ok3 and h3 then return h3 end
+	return game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+end
+AL.Parent = get_hui()
 
 PopupFrame.Name = "PopupFrame"
 PopupFrame.Parent = AL
@@ -58,7 +67,7 @@ Loadbar.BorderColor3 = Color3.fromRGB(0, 170, 0)
 Loadbar.Size = UDim2.new(0, 0, 0, 20)
 Loadbar.Visible = false
 Loadbar.ZIndex = 3
-Loadbar.Font = Enum.Font.SourceSans
+Loadbar.Font = Enum.Font.GothamMedium
 Loadbar.Text = ""
 Loadbar.TextSize = 14.000
 
@@ -69,7 +78,7 @@ Workspace.BorderColor3 = Color3.fromRGB(27, 42, 53)
 Workspace.BorderSizePixel = 0
 Workspace.Position = UDim2.new(0, 275, 0, 144)
 Workspace.Size = UDim2.new(0, 80, 0, 20)
-Workspace.Font = Enum.Font.SourceSans
+Workspace.Font = Enum.Font.GothamMedium
 Workspace.Text = "Workspace"
 Workspace.TextColor3 = Color3.fromRGB(255, 255, 255)
 Workspace.TextSize = 14.000
@@ -81,7 +90,7 @@ SS.BorderColor3 = Color3.fromRGB(27, 42, 53)
 SS.BorderSizePixel = 0
 SS.Position = UDim2.new(0, 275, 0, 40)
 SS.Size = UDim2.new(0, 80, 0, 20)
-SS.Font = Enum.Font.SourceSans
+SS.Font = Enum.Font.GothamMedium
 SS.Text = "Save Selected"
 SS.TextColor3 = Color3.fromRGB(255, 255, 255)
 SS.TextSize = 14.000
@@ -94,7 +103,7 @@ Minimize.BorderSizePixel = 0
 Minimize.Position = UDim2.new(0, 20, 0, 0)
 Minimize.Size = UDim2.new(0, 20, 0, 20)
 Minimize.ZIndex = 2
-Minimize.Font = Enum.Font.SourceSans
+Minimize.Font = Enum.Font.GothamMedium
 Minimize.Text = "_"
 Minimize.TextColor3 = Color3.fromRGB(255, 255, 255)
 Minimize.TextSize = 14.000
@@ -106,7 +115,7 @@ SA.BorderColor3 = Color3.fromRGB(27, 42, 53)
 SA.BorderSizePixel = 0
 SA.Position = UDim2.new(0, 275, 0, 61)
 SA.Size = UDim2.new(0, 80, 0, 20)
-SA.Font = Enum.Font.SourceSans
+SA.Font = Enum.Font.GothamMedium
 SA.Text = "Save All"
 SA.TextColor3 = Color3.fromRGB(255, 255, 255)
 SA.TextSize = 14.000
@@ -118,7 +127,7 @@ Scan.BackgroundTransparency = 1.000
 Scan.BorderColor3 = Color3.fromRGB(27, 42, 53)
 Scan.Position = UDim2.new(0, 275, 0, 124)
 Scan.Size = UDim2.new(0, 80, 0, 20)
-Scan.Font = Enum.Font.SourceSans
+Scan.Font = Enum.Font.GothamMedium
 Scan.Text = "Scan:"
 Scan.TextColor3 = Color3.fromRGB(255, 255, 255)
 Scan.TextSize = 14.000
@@ -130,7 +139,7 @@ Lighting.BorderColor3 = Color3.fromRGB(27, 42, 53)
 Lighting.BorderSizePixel = 0
 Lighting.Position = UDim2.new(0, 275, 0, 165)
 Lighting.Size = UDim2.new(0, 80, 0, 20)
-Lighting.Font = Enum.Font.SourceSans
+Lighting.Font = Enum.Font.GothamMedium
 Lighting.Text = "Lighting"
 Lighting.TextColor3 = Color3.fromRGB(255, 255, 255)
 Lighting.TextSize = 14.000
@@ -142,7 +151,7 @@ Title.BackgroundTransparency = 1.000
 Title.BorderColor3 = Color3.fromRGB(27, 42, 53)
 Title.Size = UDim2.new(0, 360, 0, 20)
 Title.ZIndex = 2
-Title.Font = Enum.Font.SourceSans
+Title.Font = Enum.Font.GothamMedium
 Title.Text = "Edge's Audio Logger"
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.TextSize = 14.000
@@ -154,7 +163,7 @@ Close.BorderColor3 = Color3.fromRGB(27, 42, 53)
 Close.BorderSizePixel = 0
 Close.Size = UDim2.new(0, 20, 0, 20)
 Close.ZIndex = 2
-Close.Font = Enum.Font.SourceSans
+Close.Font = Enum.Font.GothamMedium
 Close.Text = "X"
 Close.TextColor3 = Color3.fromRGB(255, 255, 255)
 Close.TextSize = 14.000
@@ -166,7 +175,7 @@ SoundS.BorderColor3 = Color3.fromRGB(27, 42, 53)
 SoundS.BorderSizePixel = 0
 SoundS.Position = UDim2.new(0, 275, 0, 186)
 SoundS.Size = UDim2.new(0, 80, 0, 20)
-SoundS.Font = Enum.Font.SourceSans
+SoundS.Font = Enum.Font.GothamMedium
 SoundS.Text = "SoundService"
 SoundS.TextColor3 = Color3.fromRGB(255, 255, 255)
 SoundS.TextSize = 14.000
@@ -178,7 +187,7 @@ ClrS.BorderColor3 = Color3.fromRGB(27, 42, 53)
 ClrS.BorderSizePixel = 0
 ClrS.Position = UDim2.new(0, 275, 0, 82)
 ClrS.Size = UDim2.new(0, 80, 0, 20)
-ClrS.Font = Enum.Font.SourceSans
+ClrS.Font = Enum.Font.GothamMedium
 ClrS.Text = "Clr Selected"
 ClrS.TextColor3 = Color3.fromRGB(255, 255, 255)
 ClrS.TextSize = 14.000
@@ -190,7 +199,7 @@ Settings.BackgroundTransparency = 1.000
 Settings.BorderColor3 = Color3.fromRGB(27, 42, 53)
 Settings.Position = UDim2.new(0, 275, 0, 20)
 Settings.Size = UDim2.new(0, 80, 0, 20)
-Settings.Font = Enum.Font.SourceSans
+Settings.Font = Enum.Font.GothamMedium
 Settings.Text = "Settings:"
 Settings.TextColor3 = Color3.fromRGB(255, 255, 255)
 Settings.TextSize = 14.000
@@ -215,7 +224,7 @@ Clr.BorderColor3 = Color3.fromRGB(27, 42, 53)
 Clr.BorderSizePixel = 0
 Clr.Position = UDim2.new(0, 275, 0, 103)
 Clr.Size = UDim2.new(0, 80, 0, 20)
-Clr.Font = Enum.Font.SourceSans
+Clr.Font = Enum.Font.GothamMedium
 Clr.Text = "Clr Unselected"
 Clr.TextColor3 = Color3.fromRGB(255, 255, 255)
 Clr.TextSize = 14.000
@@ -227,7 +236,7 @@ All.BorderColor3 = Color3.fromRGB(27, 42, 53)
 All.BorderSizePixel = 0
 All.Position = UDim2.new(0, 275, 0, 207)
 All.Size = UDim2.new(0, 80, 0, 20)
-All.Font = Enum.Font.SourceSans
+All.Font = Enum.Font.GothamMedium
 All.Text = "Game"
 All.TextColor3 = Color3.fromRGB(255, 255, 255)
 All.TextSize = 14.000
@@ -239,7 +248,7 @@ AutoScan.BorderColor3 = Color3.fromRGB(27, 42, 53)
 AutoScan.BorderSizePixel = 0
 AutoScan.Position = UDim2.new(0, 275, 0, 228)
 AutoScan.Size = UDim2.new(0, 80, 0, 20)
-AutoScan.Font = Enum.Font.SourceSans
+AutoScan.Font = Enum.Font.GothamMedium
 AutoScan.Text = "Auto Scan"
 AutoScan.TextColor3 = Color3.fromRGB(255, 255, 255)
 AutoScan.TextSize = 14.000
@@ -253,7 +262,7 @@ Store.BorderSizePixel = 0
 Store.Position = UDim2.new(0, 5, 0, 25)
 Store.Size = UDim2.new(0, 265, 0, 230)
 Store.Visible = false
-Store.Font = Enum.Font.SourceSans
+Store.Font = Enum.Font.GothamMedium
 Store.Text = ""
 Store.TextColor3 = Color3.fromRGB(0, 0, 0)
 Store.TextScaled = true
@@ -281,7 +290,7 @@ Close_2.BackgroundColor3 = Color3.fromRGB(61, 61, 61)
 Close_2.BorderColor3 = Color3.fromRGB(27, 42, 53)
 Close_2.BorderSizePixel = 0
 Close_2.Size = UDim2.new(0, 20, 0, 20)
-Close_2.Font = Enum.Font.SourceSans
+Close_2.Font = Enum.Font.GothamMedium
 Close_2.Text = "X"
 Close_2.TextColor3 = Color3.fromRGB(255, 255, 255)
 Close_2.TextSize = 14.000
@@ -291,7 +300,7 @@ TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 TextLabel.BackgroundTransparency = 1.000
 TextLabel.BorderColor3 = Color3.fromRGB(27, 42, 53)
 TextLabel.Size = UDim2.new(0, 265, 0, 230)
-TextLabel.Font = Enum.Font.SourceSans
+TextLabel.Font = Enum.Font.GothamMedium
 TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 TextLabel.TextSize = 14.000
 TextLabel.TextWrapped = true
@@ -303,7 +312,7 @@ Copy.BorderColor3 = Color3.fromRGB(27, 42, 53)
 Copy.BorderSizePixel = 0
 Copy.Position = UDim2.new(0, 20, 0, 0)
 Copy.Size = UDim2.new(0, 50, 0, 20)
-Copy.Font = Enum.Font.SourceSans
+Copy.Font = Enum.Font.GothamMedium
 Copy.Text = "Copy ID"
 Copy.TextColor3 = Color3.fromRGB(255, 255, 255)
 Copy.TextSize = 14.000
@@ -315,7 +324,7 @@ Listen.BorderColor3 = Color3.fromRGB(27, 42, 53)
 Listen.BorderSizePixel = 0
 Listen.Position = UDim2.new(0, 70, 0, 0)
 Listen.Size = UDim2.new(0, 50, 0, 20)
-Listen.Font = Enum.Font.SourceSans
+Listen.Font = Enum.Font.GothamMedium
 Listen.Text = "Listen"
 Listen.TextColor3 = Color3.fromRGB(255, 255, 255)
 Listen.TextSize = 14.000
@@ -335,7 +344,7 @@ TextLabel_2.BorderColor3 = Color3.fromRGB(27, 42, 53)
 TextLabel_2.BorderSizePixel = 0
 TextLabel_2.Position = UDim2.new(0, 20, 0, 0)
 TextLabel_2.Size = UDim2.new(0, 245, 0, 20)
-TextLabel_2.Font = Enum.Font.SourceSans
+TextLabel_2.Font = Enum.Font.GothamMedium
 TextLabel_2.Text = "Loading..."
 TextLabel_2.TextColor3 = Color3.fromRGB(255, 255, 255)
 TextLabel_2.TextSize = 14.000
@@ -349,7 +358,7 @@ Click.BorderColor3 = Color3.fromRGB(27, 42, 53)
 Click.BorderSizePixel = 0
 Click.Position = UDim2.new(0, 20, 0, 0)
 Click.Size = UDim2.new(0, 245, 0, 20)
-Click.Font = Enum.Font.SourceSans
+Click.Font = Enum.Font.GothamMedium
 Click.Text = ""
 Click.TextColor3 = Color3.fromRGB(0, 0, 0)
 Click.TextSize = 14.000
@@ -363,7 +372,7 @@ ImageButton.Size = UDim2.new(0, 20, 0, 20)
 ImageButton.Image = "rbxassetid://64942289"
 
 
-wait(0.2)
+task.wait(0.2)
 GUI = AL.PopupFrame.PopupFrame
 pos = 0
 
@@ -378,15 +387,15 @@ ignore = {
 	"rbxasset://sounds/action_footsteps_plastic.mp3"
 }
 
-GUI.Close.MouseButton1Click:connect(function()
-	GUI:TweenSize(UDim2.new(0, 360, 0, 0),"Out","Quad",0.5,true) wait(0.6)
-	GUI.Parent:TweenSize(UDim2.new(0, 0, 0, 20),"Out","Quad",0.5,true) wait(0.6)
+GUI.Close.MouseButton1Click:Connect(function()
+	GUI:TweenSize(UDim2.new(0, 360, 0, 0),"Out","Quad",0.5,true) task.wait(0.6)
+	GUI.Parent:TweenSize(UDim2.new(0, 0, 0, 20),"Out","Quad",0.5,true) task.wait(0.6)
 	itemadded:Disconnect()
 	AL:Destroy()
 end)
 
 local min = false
-GUI.Minimize.MouseButton1Click:connect(function()
+GUI.Minimize.MouseButton1Click:Connect(function()
 	if min == false then
 		GUI:TweenSize(UDim2.new(0, 360, 0, 20),"Out","Quad",0.5,true) min = true
 	else
@@ -406,11 +415,11 @@ function printTable(tbl)
 				-- print(string.rep(' ', depthCount) .. ' [' .. tostring(i) .. '] = {')
 				GUI.Store.Text = GUI.Store.Text..'\n'..string.rep(' ', depthCount) .. ' [' .. tostring(i) .. '] = {'
 				run(v, false)
-				wait()
+				task.wait()
 			else
 				-- print(string.rep(' ', depthCount) .. ' [' .. tostring(i) .. '] = ' .. tostring(v))
 				GUI.Store.Text = GUI.Store.Text..'\n'..string.rep(' ', depthCount) .. ' [' .. tostring(i) .. '] = ' .. tostring(v)
-				wait()
+				task.wait()
 			end
 		end
 		-- print(string.rep(' ', depthCount) .. '}')
@@ -445,11 +454,11 @@ end
 
 writeaudio = {}
 running = false
-GUI.SS.MouseButton1Click:connect(function()
+GUI.SS.MouseButton1Click:Connect(function()
 	if writefileExploit() then
 		if running == false then
 			GUI.Loadbar.Visible = true running = true
-			GUI.Loadbar:TweenSize(UDim2.new(0, 360, 0, 20),"Out","Quad",0.5,true) wait(0.3)
+			GUI.Loadbar:TweenSize(UDim2.new(0, 360, 0, 20),"Out","Quad",0.5,true) task.wait(0.3)
 			for _, child in pairs(GUI.Logs:GetChildren()) do
 				if child:FindFirstChild('ImageButton') then local bttn = child:FindFirstChild('ImageButton')
 					if bttn.BackgroundTransparency == 0 then
@@ -459,7 +468,7 @@ GUI.SS.MouseButton1Click:connect(function()
 			end
 			GUI.Store.Visible = true
 			printTable(writeaudio)
-			wait(0.2)
+			task.wait(0.2)
 			local filename = 0
 			local function write()
 				local file
@@ -476,7 +485,7 @@ GUI.SS.MouseButton1Click:connect(function()
 			write()
 			for rep = 1,10 do
 				GUI.Loadbar.BackgroundTransparency = GUI.Loadbar.BackgroundTransparency + 0.1
-				wait(0.05)
+				task.wait(0.05)
 			end
 			GUI.Loadbar.Visible = false
 			GUI.Loadbar.BackgroundTransparency = 0
@@ -485,7 +494,7 @@ GUI.SS.MouseButton1Click:connect(function()
 			GUI.Store.Visible = false
 			GUI.Store.Text = ''
 			writeaudio = {}
-			game:FindService('StarterGui'):SetCore('SendNotification', {
+			cloneref(game:GetService('StarterGui')):SetCore('SendNotification', {
 				Title = 'Audio Logger',
 				Text = 'Saved audios\n(Audios'..filename..'.txt)',
 				Icon = 'http://www.roblox.com/asset/?id=176572847',
@@ -493,7 +502,7 @@ GUI.SS.MouseButton1Click:connect(function()
 			})
 		end
 	else
-		game:FindService('StarterGui'):SetCore('SendNotification', {
+		cloneref(game:GetService('StarterGui')):SetCore('SendNotification', {
 			Title = 'Audio Logger',
 			Text = 'Exploit cannot writefile :(',
 			Icon = 'http://www.roblox.com/asset/?id=176572847',
@@ -502,17 +511,17 @@ GUI.SS.MouseButton1Click:connect(function()
 	end
 end)
 
-GUI.SA.MouseButton1Click:connect(function()
+GUI.SA.MouseButton1Click:Connect(function()
 	if writefileExploit() then
 		if running == false then
 			GUI.Loadbar.Visible = true running = true
-			GUI.Loadbar:TweenSize(UDim2.new(0, 360, 0, 20),"Out","Quad",0.5,true) wait(0.3)
+			GUI.Loadbar:TweenSize(UDim2.new(0, 360, 0, 20),"Out","Quad",0.5,true) task.wait(0.3)
 			for _, child in pairs(GUI.Logs:GetChildren()) do
 				writeaudio[#writeaudio + 1] = {NAME = child.NAME.Value, ID = child.ID.Value}
 			end
 			GUI.Store.Visible = true
 			printTable(writeaudio)
-			wait(0.2)
+			task.wait(0.2)
 			local filename = 0
 			local function write()
 				local file
@@ -529,7 +538,7 @@ GUI.SA.MouseButton1Click:connect(function()
 			write()
 			for rep = 1,10 do
 				GUI.Loadbar.BackgroundTransparency = GUI.Loadbar.BackgroundTransparency + 0.1
-				wait(0.05)
+				task.wait(0.05)
 			end
 			GUI.Loadbar.Visible = false
 			GUI.Loadbar.BackgroundTransparency = 0
@@ -538,7 +547,7 @@ GUI.SA.MouseButton1Click:connect(function()
 			GUI.Store.Visible = false
 			GUI.Store.Text = ''
 			writeaudio = {}
-			game:FindService('StarterGui'):SetCore('SendNotification', {
+			cloneref(game:GetService('StarterGui')):SetCore('SendNotification', {
 				Title = 'Audio Logger',
 				Text = 'Saved audios\n(Audios'..filename..'.txt)',
 				Icon = 'http://www.roblox.com/asset/?id=176572847',
@@ -546,7 +555,7 @@ GUI.SA.MouseButton1Click:connect(function()
 			})
 		end
 	else
-		game:FindService('StarterGui'):SetCore('SendNotification', {
+		cloneref(game:GetService('StarterGui')):SetCore('SendNotification', {
 			Title = 'Audio Logger',
 			Text = 'Exploit cannot writefile :(',
 			Icon = 'http://www.roblox.com/asset/?id=176572847',
@@ -559,9 +568,9 @@ selectedaudio = nil
 function getaudio(place)
 	if running == false then
 		GUI.Loadbar.Visible = true running = true
-		GUI.Loadbar:TweenSize(UDim2.new(0, 360, 0, 20),"Out","Quad",0.5,true) wait(0.3)
+		GUI.Loadbar:TweenSize(UDim2.new(0, 360, 0, 20),"Out","Quad",0.5,true) task.wait(0.3)
 		for _, child in pairs(place:GetDescendants()) do
-			spawn(function()
+			task.spawn(function()
 				if child:IsA("Sound") and not GUI.Logs:FindFirstChild(child.SoundId) and not FindTable(ignore,child.SoundId) then
 					local id = string.match(child.SoundId, "rbxasset://sounds.+") or string.match(child.SoundId, "&hash=.+") or string.match(child.SoundId, "%d+")
 					if id ~= nil then		
@@ -614,7 +623,7 @@ function getaudio(place)
 	end
 	for rep = 1,10 do
 		GUI.Loadbar.BackgroundTransparency = GUI.Loadbar.BackgroundTransparency + 0.1
-		wait(0.05)
+		task.wait(0.05)
 	end
 	GUI.Loadbar.Visible = false
 	GUI.Loadbar.BackgroundTransparency = 0
@@ -622,11 +631,11 @@ function getaudio(place)
 	running = false
 end
 
-GUI.All.MouseButton1Click:connect(function() getaudio(game)end)
-GUI.Workspace.MouseButton1Click:connect(function() getaudio(workspace)end)
-GUI.Lighting.MouseButton1Click:connect(function() getaudio(game:GetService('Lighting'))end)
-GUI.SoundS.MouseButton1Click:connect(function() getaudio(game:GetService('SoundService'))end)
-GUI.Clr.MouseButton1Click:connect(function()
+GUI.All.MouseButton1Click:Connect(function() getaudio(game)end)
+GUI.Workspace.MouseButton1Click:Connect(function() getaudio(workspace)end)
+GUI.Lighting.MouseButton1Click:Connect(function() getaudio(game:GetService('Lighting'))end)
+GUI.SoundS.MouseButton1Click:Connect(function() getaudio(game:GetService('SoundService'))end)
+GUI.Clr.MouseButton1Click:Connect(function()
 	for _, child in pairs(GUI.Logs:GetChildren()) do
 		if child:FindFirstChild('ImageButton') then local bttn = child:FindFirstChild('ImageButton')
 			if bttn.BackgroundTransparency == 1 then
@@ -636,7 +645,7 @@ GUI.Clr.MouseButton1Click:connect(function()
 		end
 	end
 end)
-GUI.ClrS.MouseButton1Click:connect(function()
+GUI.ClrS.MouseButton1Click:Connect(function()
 	for _, child in pairs(GUI.Logs:GetChildren()) do
 		if child:FindFirstChild('ImageButton') then local bttn = child:FindFirstChild('ImageButton')
 			if bttn.BackgroundTransparency == 0 then
@@ -647,10 +656,10 @@ GUI.ClrS.MouseButton1Click:connect(function()
 	end
 end)
 autoscan = false
-GUI.AutoScan.MouseButton1Click:connect(function()
+GUI.AutoScan.MouseButton1Click:Connect(function()
 	if autoscan == false then autoscan = true
 		GUI.AutoScan.BackgroundTransparency = 0.5
-		game:FindService('StarterGui'):SetCore('SendNotification', {
+		cloneref(game:GetService('StarterGui')):SetCore('SendNotification', {
 			Title = 'Audio Logger',
 			Text = 'Auto Scan ENABLED',
 			Icon = 'http://www.roblox.com/asset/?id=176572847',
@@ -658,7 +667,7 @@ GUI.AutoScan.MouseButton1Click:connect(function()
 		})
 	else autoscan = false
 		GUI.AutoScan.BackgroundTransparency = 0
-		game:FindService('StarterGui'):SetCore('SendNotification', {
+		cloneref(game:GetService('StarterGui')):SetCore('SendNotification', {
 			Title = 'Audio Logger',
 			Text = 'Auto Scan DISABLED',
 			Icon = 'http://www.roblox.com/asset/?id=176572847',
@@ -667,8 +676,8 @@ GUI.AutoScan.MouseButton1Click:connect(function()
 	end
 end)
 
-itemadded = game.DescendantAdded:connect(function(added)
-	wait()
+itemadded = game.DescendantAdded:Connect(function(added)
+	task.wait()
 	if autoscan == true and added:IsA('Sound') and not GUI.Logs:FindFirstChild(added.SoundId) and not FindTable(ignore,added.SoundId) then
 		local id = string.match(added.SoundId, "rbxasset://sounds.+") or string.match(added.SoundId, "&hash=.+") or string.match(added.SoundId, "%d+")
 		if id ~= nil then		
@@ -727,12 +736,18 @@ itemadded = game.DescendantAdded:connect(function(added)
 end)
 
 GUI.Info.Copy.MouseButton1Click:Connect(function()
-	if pcall(function() Synapse:Copy(selectedaudio) end) then	
-	else
-		local clip = setclipboard or Clipboard.set
-		clip(selectedaudio)
+	if not selectedaudio then
+		cloneref(game:GetService('StarterGui')):SetCore('SendNotification', { Title = 'Audio Logger', Text = 'No audio selected', Icon = 'http://www.roblox.com/asset/?id=176572847', Duration = 3 })
+		return
 	end
-	game:FindService('StarterGui'):SetCore('SendNotification', {
+	local ok = pcall(function() Synapse:Copy(selectedaudio) end)
+	if not ok then
+		local clip = setclipboard or Clipboard.set or toclipboard
+		if clip then
+			clip(selectedaudio)
+		end
+	end
+	cloneref(game:GetService('StarterGui')):SetCore('SendNotification', {
 		Title = 'Audio Logger',
 		Text = 'Copied to clipboard',
 		Icon = 'http://www.roblox.com/asset/?id=176572847',
@@ -742,7 +757,8 @@ end)
 
 GUI.Info.Close.MouseButton1Click:Connect(function()
 	GUI.Info.Visible = false
-	for _, sound in pairs(game:GetService('Players').LocalPlayer.PlayerGui:GetChildren()) do
+	local PlayerGui = cloneref(game:GetService('Players').LocalPlayer:WaitForChild("PlayerGui"))
+	for _, sound in pairs(PlayerGui:GetChildren()) do
 		if sound.Name == 'SampleSound' then
 			sound:Destroy()
 		end
@@ -752,12 +768,18 @@ end)
 
 GUI.Info.Listen.MouseButton1Click:Connect(function()
 	if GUI.Info.Listen.Text == 'Listen' then
-		local samplesound = Instance.new('Sound') samplesound.Parent = game:GetService('Players').LocalPlayer.PlayerGui
-		samplesound.Looped = true samplesound.SoundId = selectedaudio samplesound:Play() samplesound.Name = 'SampleSound'
-		samplesound.Volume = 5
+		if not selectedaudio then return end
+		local samplesound = Instance.new('Sound')
+		samplesound.Parent = cloneref(game:GetService('Players').LocalPlayer:WaitForChild("PlayerGui"))
+		samplesound.Looped = true
+		samplesound.SoundId = selectedaudio
+		samplesound.Name = 'SampleSound'
+		samplesound.Volume = volumeLevel or 5
+		samplesound:Play()
 		GUI.Info.Listen.Text = 'Stop'
 	else
-		for _, sound in pairs(game:GetService('Players').LocalPlayer.PlayerGui:GetChildren()) do
+		local PlayerGui = cloneref(game:GetService('Players').LocalPlayer:WaitForChild("PlayerGui"))
+		for _, sound in pairs(PlayerGui:GetChildren()) do
 			if sound.Name == 'SampleSound' then
 				sound:Destroy()
 			end
@@ -766,8 +788,66 @@ GUI.Info.Listen.MouseButton1Click:Connect(function()
 	end
 end)
 
+-- Volume slider
+local volumeLevel = 5
+local volSlider = Instance.new("Frame")
+volSlider.Size = UDim2.new(0, 100, 0, 20)
+volSlider.Position = UDim2.new(0, 120, 0, 0)
+volSlider.BackgroundColor3 = Color3.fromRGB(61, 61, 61)
+volSlider.BorderSizePixel = 0
+volSlider.Parent = Info
+
+local volLabel = Instance.new("TextLabel")
+volLabel.Size = UDim2.new(0, 40, 1, 0)
+volLabel.BackgroundTransparency = 1
+volLabel.Text = "Vol:"
+volLabel.TextColor3 = Color3.new(1, 1, 1)
+volLabel.TextSize = 12
+volLabel.Parent = volSlider
+
+local volBar = Instance.new("Frame")
+volBar.Size = UDim2.new(0, 50, 0, 6)
+volBar.Position = UDim2.new(0, 42, 0.5, -3)
+volBar.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+volBar.BorderSizePixel = 0
+volBar.Parent = volSlider
+
+local volFill = Instance.new("Frame")
+volFill.Size = UDim2.new(volumeLevel / 10, 0, 1, 0)
+volFill.BackgroundColor3 = Color3.fromRGB(0, 170, 0)
+volFill.BorderSizePixel = 0
+volFill.Parent = volBar
+
+local volButton = Instance.new("TextButton")
+volButton.Size = UDim2.new(1, 0, 1, 0)
+volButton.BackgroundTransparency = 1
+volButton.Text = ""
+volButton.Parent = volBar
+
+local draggingVol = false
+volButton.MouseButton1Down:Connect(function()
+	draggingVol = true
+end)
+
+game:GetService("UserInputService").InputEnded:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 then
+		draggingVol = false
+	end
+end)
+
+game:GetService("UserInputService").InputChanged:Connect(function(input)
+	if draggingVol and input.UserInputType == Enum.UserInputType.MouseMovement then
+		local absPos = volBar.AbsolutePosition
+		local absSize = volBar.AbsoluteSize
+		local mousePos = input.Position
+		local ratio = math.clamp((mousePos.X - absPos.X) / absSize.X, 0, 1)
+		volumeLevel = math.floor(ratio * 10)
+		volFill.Size = UDim2.new(ratio, 0, 1, 0)
+	end
+end)
+
 function drag(gui)
-	spawn(function()
+	task.spawn(function()
 		local UserInputService = game:GetService("UserInputService")
 		local dragging
 		local dragInput
